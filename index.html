@@ -8,7 +8,7 @@
 <meta name="theme-color" content="#1f3a5f">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Inter:wght@400;500;600&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231f3a5f'/%3E%3Cpath d='M14 26 32 15l18 11v3H14z M18 32h6v14h-6zM29 32h6v14h-6zM40 32h6v14h-6zM13 49h38v4H13z' fill='%23f3c969'/%3E%3C/svg%3E">
 <style>
 /* ============================================================
@@ -34,9 +34,9 @@
 }
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--paper);color:var(--text);font:16px/1.55 Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;padding-bottom:84px}
+body{margin:0;background:var(--paper);color:var(--text);font:16px/1.55 Inter,"Noto Sans Devanagari",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;padding-bottom:84px}
 a{color:var(--ink-2)}
-h1,h2,h3{font-family:Fraunces,Georgia,serif;line-height:1.2;margin:0}
+h1,h2,h3{font-family:Fraunces,"Noto Sans Devanagari",Georgia,serif;line-height:1.2;margin:0}
 button,input,select,textarea{font:inherit;color:inherit}
 .wrap{max-width:960px;margin:0 auto;padding:0 16px}
 
@@ -56,7 +56,9 @@ header.top::after{content:"";position:absolute;inset:auto 0 0 0;height:4px;backg
 
 /* bottom nav (mobile) */
 nav.bottom{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:1px solid var(--line);display:none;z-index:20;padding-bottom:env(safe-area-inset-bottom)}
-nav.bottom a{flex:1;text-align:center;text-decoration:none;color:var(--muted);font-size:.72rem;padding:8px 2px 7px;display:flex;flex-direction:column;align-items:center;gap:2px}
+nav.bottom{overflow-x:auto;scrollbar-width:none}
+nav.bottom::-webkit-scrollbar{display:none}
+nav.bottom a{flex:1 0 64px;text-align:center;text-decoration:none;color:var(--muted);font-size:.72rem;padding:8px 2px 7px;display:flex;flex-direction:column;align-items:center;gap:2px}
 nav.bottom a svg{width:22px;height:22px}
 nav.bottom a[aria-current="page"]{color:var(--ink-2);font-weight:600}
 @media (max-width:700px){ nav.bottom{display:flex} .tabs{display:none} }
@@ -145,6 +147,14 @@ form.f{background:var(--card);border:1px solid var(--line);border-radius:var(--r
 .opts input{accent-color:var(--ink)}
 .invalid input,.invalid select,.invalid textarea,.invalid .opts label{border-color:var(--err)}
 .err-msg{color:var(--err);font-size:.82rem;margin-top:4px}
+.up-row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.up-btn{display:inline-flex;align-items:center;gap:8px;border:1.5px dashed var(--ink-2);color:var(--ink-2);border-radius:12px;padding:12px 16px;cursor:pointer;font-weight:600;background:var(--paper)}
+.up-btn input{display:none}
+.thumb{position:relative;width:84px;height:84px;border-radius:10px;overflow:hidden;border:1px solid var(--line);background:var(--chip);display:grid;place-items:center;font-size:.72rem;color:var(--muted);text-align:center;padding:4px}
+.thumb img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
+.thumb button{position:absolute;top:3px;right:3px;width:24px;height:24px;border-radius:50%;border:none;background:rgba(0,0,0,.65);color:#fff;cursor:pointer;font-size:14px;line-height:1;z-index:1}
+.hint{font-size:.8rem;color:var(--muted);margin-top:6px}
+.invalid .up-btn{border-color:var(--err);color:var(--err)}
 .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
 .alert{border-radius:12px;padding:14px 16px;margin-bottom:14px}
 .alert.ok{background:#e8f4ec;color:#1d5234;border:1px solid #bfe0cb}
@@ -201,14 +211,28 @@ const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwDYqnBTRKp0_RVE6D5_
 
 /* ------------------------------------------------------------ */
 const CACHE_KEY = "po_cache_v1";
-const SECTIONS = [
-  { id:"notices",   label:"Notices",   icon:'<path d="M4 5h16v11H8l-4 4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>' },
-  { id:"info",      label:"Info",      icon:'<circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 11v6M12 7.5v.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>' },
-  { id:"events",    label:"Calendar",  icon:'<rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3.5 10h17M8 3v4M16 3v4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>' },
-  { id:"downloads", label:"Downloads", icon:'<path d="M12 4v11m0 0-4-4m4 4 4-4M5 19h14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>' },
-  { id:"forms",     label:"Forms",     icon:'<rect x="5" y="3.5" width="14" height="17" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M9 9h6M9 13h6M9 17h3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>' },
-  { id:"contact",   label:"Contact",   icon:'<path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>' }
+const ICONS = {
+  notices:'<path d="M4 5h16v11H8l-4 4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>',
+  info:'<circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 11v6M12 7.5v.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>',
+  events:'<rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3.5 10h17M8 3v4M16 3v4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>',
+  downloads:'<path d="M12 4v11m0 0-4-4m4 4 4-4M5 19h14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>',
+  forms:'<rect x="5" y="3.5" width="14" height="17" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M9 9h6M9 13h6M9 17h3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>',
+  contact:'<path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>',
+  form:'<rect x="4" y="5" width="16" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="9" cy="10" r="1.8" fill="currentColor"/><path d="m5 17 5-4 3 2.5 2.5-2 3.5 3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>'
+};
+/* default section names — the Sections tab in the Sheet overrides these */
+const DEFAULT_SECTIONS = [
+  { id:"notices",   label:"Notices",   heading:"Notices",            show:true, order:1 },
+  { id:"info",      label:"Info",      heading:"Information",        show:true, order:2 },
+  { id:"events",    label:"Calendar",  heading:"Calendar",           show:true, order:3 },
+  { id:"downloads", label:"Downloads", heading:"Downloads",          show:true, order:4 },
+  { id:"forms",     label:"Forms",     heading:"Forms",              show:true, order:5 },
+  { id:"contact",   label:"Contact",   heading:"Contact the office", show:true, order:6 }
 ];
+/* default button/label texts — override with Text_… keys in the Settings tab */
+const DEFAULT_TEXT = { Search:"Search…", Submit:"Submit", Required:"Fields marked * are required.", FillForm:"Fill form",
+  AddPhoto:"Add photo", AddFile:"Choose file", Upcoming:"Upcoming", Recent:"Recent", Submitting:"Submitting…", Uploading:"Uploading photos…",
+  Reference:"Reference number", AllForms:"All forms", Share:"Share on WhatsApp", CopyLink:"Copy link", Close:"Close", Attachment:"Open attachment" };
 const CAT_COLORS = { exam:"--c-exam", exams:"--c-exam", meeting:"--c-meeting", ptm:"--c-meeting", holiday:"--c-holiday", holidays:"--c-holiday", general:"--c-general", urgent:"--c-urgent", important:"--c-urgent" };
 
 /* sample data used only when SCRIPT_URL is empty */
@@ -218,6 +242,7 @@ function demoData(){
     settings:{ SchoolName:"Your School Name", Tagline:"Office of the Principal", Phone:"+91 90000 00000", WhatsApp:"919000000000",
       Email:"principal@yourschool.edu.in", Address:"School Road, City, State – 000000", OfficeHours:"Mon–Sat, 9:00 AM – 4:00 PM",
       Welcome:"All notices, information and forms from the Principal's Office are published here. Please check this page regularly." },
+    sections: DEFAULT_SECTIONS,
     notices:[
       { id:2, date:d(0), title:"Parent–Teacher Meeting", details:"PTM for all classes will be held on Saturday from 9 AM to 1 PM. Parents are requested to collect report cards from the class teacher.", category:"Meeting", pinned:true },
       { id:3, date:d(-2), title:"Winter uniform from 1 November", details:"Students must wear the full winter uniform (navy blazer and grey trousers/skirt) from 1 November.", category:"General" },
@@ -255,7 +280,16 @@ function demoData(){
         { label:"Transport", type:"radio", required:true, options:["School bus","Own transport"] },
         { label:"Any medical notes for the school", type:"textarea", placeholder:"Optional", options:[] },
         { label:"I confirm the details above are correct", type:"checkbox", required:true, options:["Yes, I confirm"] }
-      ]}]
+      ]},
+      { id:"id_photo", title:"ID Card Photo", description:"Upload a recent passport-size photo of the student (plain background).", thankYou:"Photo received. Thank you!",
+        menu:true, menuLabel:"ID Photo",
+        fields:[
+          { label:"Student Name", type:"text", required:true, options:[] },
+          { label:"Class", type:"select", required:true, options:"Nursery,LKG,UKG,1,2,3,4,5,6,7,8,9,10,11,12".split(",") },
+          { label:"Section", type:"select", required:true, options:["A","B","C","D"] },
+          { label:"Student Photo", type:"image", required:true, placeholder:"Passport-size, plain background", options:[] },
+          { label:"Supporting document (optional)", type:"file", placeholder:"PDF or photo, up to 5 MB", options:[] }
+        ]}]
   };
 }
 
@@ -272,6 +306,21 @@ function rich(s){ /* escape, then linkify and keep line breaks */
 function safeUrl(u){ u = String(u||"").trim(); return /^https?:\/\//i.test(u) ? u : (u ? "https://" + u : ""); }
 function catVar(c){ return `var(${CAT_COLORS[String(c||"").toLowerCase()] || "--c-other"})`; }
 function daysAgo(s){ const d = parseDate(s); if(!d) return 999; const t = new Date(); t.setHours(0,0,0,0); return Math.round((t - d)/864e5); }
+function T(k){ const v = (DATA && DATA.settings || {})["Text_" + k]; return v ? String(v) : DEFAULT_TEXT[k]; }
+function sectionList(){
+  const fromSheet = (DATA && DATA.sections || []).filter(s => s.id);
+  return DEFAULT_SECTIONS.map(d => { const s = fromSheet.find(x => x.id === d.id) || {};
+    return { id:d.id, label:s.label || d.label, heading:s.heading || s.label || d.heading, show: s.show === undefined ? d.show : s.show, order: s.order || d.order }; });
+}
+function H(id){ return esc((sectionList().find(s => s.id === id) || {}).heading || id); }
+/* menu items: visible sections + forms marked ShowInMenu, in order */
+function navItems(){
+  const items = sectionList().filter(s => s.show).map(s => ({ key:s.id, href:"#" + s.id, label:s.label, icon:ICONS[s.id], order:s.order }));
+  const fOrder = (sectionList().find(s => s.id === "forms") || {}).order || 5;
+  (DATA.forms || []).filter(f => f.menu).forEach((f, i) => items.push({ key:"form:" + f.id, href:"#forms/" + encodeURIComponent(f.id),
+    label:f.menuLabel || f.title, icon:ICONS.form, order: fOrder + 0.1 + i / 100 }));
+  return items.sort((a, b) => a.order - b.order);
+}
 function cacheGet(){ try { return JSON.parse(localStorage.getItem(CACHE_KEY)); } catch(e){ return null; } }
 function cacheSet(v){ try { localStorage.setItem(CACHE_KEY, JSON.stringify(v)); } catch(e){} }
 
@@ -309,18 +358,24 @@ function renderStatus(){
 }
 
 /* ---------------- routing ---------------- */
-function navHtml(cur, withIcons){
-  return SECTIONS.map(s =>
-    `<a href="#${s.id}"${s.id === cur ? ' aria-current="page"' : ""}>${withIcons ? `<svg viewBox="0 0 24 24" aria-hidden="true">${s.icon}</svg>` : ""}${s.label}</a>`).join("");
+function navHtml(items, curKey, withIcons){
+  return items.map(s => `<a href="${s.href}"${s.key === curKey ? ' aria-current="page"' : ""}>${withIcons ? `<svg viewBox="0 0 24 24" aria-hidden="true">${s.icon}</svg>` : ""}${esc(s.label)}</a>`).join("");
 }
 function route(){
   if(!DATA) return;
-  const h = decodeURIComponent(location.hash.slice(1)) || "notices";
-  const [sec, arg] = h.split("/");
-  const cur = SECTIONS.some(s => s.id === sec) ? sec : "notices";
+  const items = navItems();
+  const visible = new Set(sectionList().filter(s => s.show).map(s => s.id));
+  const h = decodeURIComponent(location.hash.slice(1));
+  let [sec, arg] = h.split("/");
+  const menuForm = sec === "forms" && arg && (DATA.forms || []).some(f => f.id === arg && f.menu);
+  if(!visible.has(sec) && !menuForm){ sec = items[0] ? (items[0].key.startsWith("form:") ? "forms" : items[0].key) : "notices"; arg = items[0] && items[0].key.startsWith("form:") ? items[0].key.slice(5) : undefined; }
+  const cur = sec;
+  const curKey = cur === "forms" && arg && (DATA.forms || []).some(f => f.id === arg && f.menu) ? "form:" + arg : cur;
   if($("#dlg").open && !(cur === "notices" && arg)) $("#dlg").close();
-  $("#tabs").innerHTML = navHtml(cur, false);
-  $("#bottomNav").innerHTML = navHtml(cur, true);
+  $("#tabs").innerHTML = navHtml(items, curKey, false);
+  $("#bottomNav").innerHTML = navHtml(items, curKey, true);
+  $("#bottomNav").classList.toggle("hidden", items.length < 2);
+  $("#tabs").classList.toggle("hidden", items.length < 2);
   renderStatus();
   const v = $("#view");
   if(cur === "notices") v.innerHTML = viewNotices();
@@ -342,9 +397,9 @@ function viewNotices(){
   const s = DATA.settings || {};
   const cats = ["All", ...new Set((DATA.notices||[]).map(n => n.category).filter(Boolean))];
   return `${s.Welcome ? `<div class="welcome">${rich(s.Welcome)}</div>` : ""}
-    <div class="section-head"><h2>Notices</h2></div>
+    <div class="section-head"><h2>${H("notices")}</h2></div>
     <div class="toolbar">
-      <input class="search" id="q" type="search" placeholder="Search notices…" value="${esc(state.q)}" aria-label="Search notices">
+      <input class="search" id="q" type="search" placeholder="${esc(T("Search"))}" value="${esc(state.q)}" aria-label="Search notices">
     </div>
     ${cats.length > 2 ? `<div class="toolbar" role="group" aria-label="Filter by category">${cats.map(c => `<button class="chip" data-cat="${esc(c)}" aria-pressed="${c === state.cat}">${esc(c)}</button>`).join("")}</div>` : ""}
     <div class="list" id="noticeList">${noticeList()}</div>`;
@@ -380,10 +435,10 @@ function openNotice(id){
       <div class="content">${rich(n.details)}</div>
     </div>
     <div class="dlg-actions">
-      ${n.attachment ? `<a class="btn primary" href="${esc(safeUrl(n.attachment))}" target="_blank" rel="noopener">Open attachment</a>` : ""}
-      <a class="btn wa" href="https://wa.me/?text=${encodeURIComponent(shareText)}" target="_blank" rel="noopener">Share on WhatsApp</a>
-      <button class="btn" id="copyLink">Copy link</button>
-      <button class="btn" style="margin-left:auto" onclick="closeDlg()">Close</button>
+      ${n.attachment ? `<a class="btn primary" href="${esc(safeUrl(n.attachment))}" target="_blank" rel="noopener">${esc(T("Attachment"))}</a>` : ""}
+      <a class="btn wa" href="https://wa.me/?text=${encodeURIComponent(shareText)}" target="_blank" rel="noopener">${esc(T("Share"))}</a>
+      <button class="btn" id="copyLink">${esc(T("CopyLink"))}</button>
+      <button class="btn" style="margin-left:auto" onclick="closeDlg()">${esc(T("Close"))}</button>
     </div>`;
   $("#copyLink").onclick = async e => { try { await navigator.clipboard.writeText(link); e.target.textContent = "Copied ✓"; } catch(x){ prompt("Copy this link:", link); } };
   const dlg = $("#dlg"); if(!dlg.open) dlg.showModal();
@@ -397,9 +452,9 @@ function viewInfo(){
   const groups = {};
   (DATA.info||[]).forEach(r => { const k = r.section || "General"; (groups[k] = groups[k] || []).push(r); });
   const keys = Object.keys(groups);
-  if(!keys.length) return `<div class="section-head"><h2>Information</h2></div><div class="empty">No information added yet.</div>`;
-  return `<div class="section-head"><h2>Information</h2></div>
-    <div class="toolbar"><input class="search" id="iq" type="search" placeholder="Search information…" aria-label="Search information"></div>
+  if(!keys.length) return `<div class="section-head"><h2>${H("info")}</h2></div><div class="empty">No information added yet.</div>`;
+  return `<div class="section-head"><h2>${H("info")}</h2></div>
+    <div class="toolbar"><input class="search" id="iq" type="search" placeholder="${esc(T("Search"))}" aria-label="Search information"></div>
     <div id="infoGroups">${keys.map(k => `<div class="group"><h3>${esc(k)}</h3>${groups[k].sort((a,b) => a.order - b.order).map((r,i) =>
       `<details${keys.length === 1 && i === 0 ? " open" : ""}><summary>${esc(r.title || k)}</summary><div class="content">${rich(r.content)}</div></details>`).join("")}</div>`).join("")}</div>`;
 }
@@ -416,9 +471,9 @@ function viewEvents(){
       <div><h3>${esc(e.title)}</h3>
         <div class="sub">${e.end ? `${fmtDate(e.date,{ day:"numeric", month:"short" })} – ${fmtDate(e.end)}` : fmtDate(e.date,{ weekday:"long", day:"numeric", month:"long" })}${e.location ? " · " + esc(e.location) : ""}</div>
         ${e.details ? `<div class="sub" style="margin-top:4px">${rich(e.details)}</div>` : ""}</div></div>`; };
-  return `<div class="section-head"><h2>Calendar</h2></div>
+  return `<div class="section-head"><h2>${H("events")}</h2></div>${upcoming.length && past.length ? `<div class="subhead" style="margin-top:0">${esc(T("Upcoming"))}</div>` : ""}
     <div class="list">${upcoming.length ? upcoming.map(e => card(e)).join("") : `<div class="empty">No upcoming events.</div>`}</div>
-    ${past.length ? `<div class="subhead">Recent</div><div class="list">${past.map(e => card(e, "past")).join("")}</div>` : ""}`;
+    ${past.length ? `<div class="subhead">${esc(T("Recent"))}</div><div class="list">${past.map(e => card(e, "past")).join("")}</div>` : ""}`;
 }
 
 /* ---------------- downloads ---------------- */
@@ -426,7 +481,7 @@ function viewDownloads(){
   const groups = {};
   (DATA.downloads||[]).filter(d => d.url).forEach(d => { const k = d.category || "Files"; (groups[k] = groups[k] || []).push(d); });
   const keys = Object.keys(groups);
-  return `<div class="section-head"><h2>Downloads</h2></div>` + (keys.length ? keys.map(k => `<div class="group"><h3>${esc(k)}</h3><div class="list">${groups[k].map(d =>
+  return `<div class="section-head"><h2>${H("downloads")}</h2></div>` + (keys.length ? keys.map(k => `<div class="group"><h3>${esc(k)}</h3><div class="list">${groups[k].map(d =>
     `<a class="dl" href="${esc(safeUrl(d.url))}" target="_blank" rel="noopener"><div class="ic"><svg viewBox="0 0 24 24" width="20" height="20"><path d="M12 4v11m0 0-4-4m4 4 4-4M5 19h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
      <div><b>${esc(d.title)}</b>${d.description ? `<span>${esc(d.description)}</span>` : ""}</div></a>`).join("")}</div></div>`).join("") : `<div class="empty">No downloads yet.</div>`);
 }
@@ -435,8 +490,8 @@ function viewDownloads(){
 function viewForms(){
   const f = DATA.forms || [];
   if(f.length === 1) { location.replace("#forms/" + encodeURIComponent(f[0].id)); return ""; }
-  return `<div class="section-head"><h2>Forms</h2></div>` + (f.length ? `<div class="list">${f.map(x =>
-    `<div class="formcard"><h3>${esc(x.title)}</h3>${x.description ? `<p>${rich(x.description)}</p>` : ""}<a class="btn primary" href="#forms/${encodeURIComponent(x.id)}">Fill form</a></div>`).join("")}</div>`
+  return `<div class="section-head"><h2>${H("forms")}</h2></div>` + (f.length ? `<div class="list">${f.map(x =>
+    `<div class="formcard"><h3>${esc(x.title)}</h3>${x.description ? `<p>${rich(x.description)}</p>` : ""}<a class="btn primary" href="#forms/${encodeURIComponent(x.id)}">${esc(T("FillForm"))}</a></div>`).join("")}</div>`
     : `<div class="empty">There are no open forms right now.</div>`);
 }
 function fieldHtml(f, i){
@@ -448,6 +503,15 @@ function fieldHtml(f, i){
     case "select": case "dropdown": return `<label for="${id}">${name}${star}</label><select id="${id}" name="${name}"${req}><option value="">Select…</option>${opts.map(o => `<option>${esc(o)}</option>`).join("")}</select>`;
     case "radio": return `<div class="lbl" id="${id}">${name}${star}</div><div class="opts" role="radiogroup" aria-labelledby="${id}">${opts.map(o => `<label><input type="radio" name="${name}" value="${esc(o)}"${req}> ${esc(o)}</label>`).join("")}</div>`;
     case "checkbox": return `<div class="lbl" id="${id}">${name}${star}</div><div class="opts" data-group="${name}" data-required="${f.required ? 1 : ""}">${opts.length ? opts.map(o => `<label><input type="checkbox" name="${name}" value="${esc(o)}"> ${esc(o)}</label>`).join("") : `<label><input type="checkbox" name="${name}" value="Yes"> Yes</label>`}</div>`;
+    case "image": case "photo": case "file": case "upload": {
+      const isImg = f.type === "image" || f.type === "photo";
+      const multi = opts.some(o => /^multiple$/i.test(o));
+      return `<div class="lbl" id="${id}">${name}${star}</div>
+        <div class="up-row" data-upload="${name}" data-kind="${isImg ? "image" : "file"}" data-required="${f.required ? 1 : ""}" data-multi="${multi ? 1 : ""}">
+          <label class="up-btn"><input type="file" accept="${isImg ? "image/*" : "image/*,application/pdf"}"${multi ? " multiple" : ""}>
+            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">${isImg ? ICONS.form : ICONS.downloads}</svg>${esc(isImg ? T("AddPhoto") : T("AddFile"))}</label>
+        </div>${f.placeholder ? `<div class="hint">${esc(f.placeholder)}</div>` : ""}`;
+    }
     case "tel": case "phone": return `<label for="${id}">${name}${star}</label><input id="${id}" type="tel" name="${name}" inputmode="tel" pattern="[+0-9 \\-]{10,15}" title="Enter a valid phone number"${req}${ph}>`;
     case "email": case "number": case "date": return `<label for="${id}">${name}${star}</label><input id="${id}" type="${f.type}" name="${name}"${req}${ph}>`;
     default: return `<label for="${id}">${name}${star}</label><input id="${id}" type="text" name="${name}"${req}${ph} maxlength="300">`;
@@ -456,15 +520,15 @@ function fieldHtml(f, i){
 function viewForm(fid){
   const f = (DATA.forms||[]).find(x => String(x.id) === fid);
   if(!f) return `<div class="empty">This form is not available. <a href="#forms">See all forms</a></div>`;
-  return `<div class="section-head"><h2>${esc(f.title)}</h2>${(DATA.forms||[]).length > 1 ? `<a href="#forms">← All forms</a>` : ""}</div>
+  return `<div class="section-head"><h2>${esc(f.title)}</h2>${(DATA.forms||[]).length > 1 && sectionList().find(s => s.id === "forms").show ? `<a href="#forms">← ${esc(T("AllForms"))}</a>` : ""}</div>
     ${f.description ? `<p style="color:var(--muted);margin-top:-6px">${rich(f.description)}</p>` : ""}
     ${DATA.demo ? `<div class="alert warn">Preview mode: submissions are not saved until the Google Sheet is connected.</div>` : ""}
     <div id="formMsg"></div>
     <form class="f" id="theForm" data-id="${esc(f.id)}" novalidate>
       ${f.fields.map((x,i) => `<div class="field">${fieldHtml(x,i)}</div>`).join("")}
       <div class="hp" aria-hidden="true"><label>Website <input name="website" tabindex="-1" autocomplete="off"></label></div>
-      <button class="btn primary" type="submit" id="submitBtn" style="width:100%;justify-content:center;padding:13px">Submit</button>
-      <p style="font-size:.8rem;color:var(--muted);margin:10px 0 0;text-align:center">Fields marked <span class="req">*</span> are required.</p>
+      <button class="btn primary" type="submit" id="submitBtn" style="width:100%;justify-content:center;padding:13px">${esc(T("Submit"))}</button>
+      <p style="font-size:.8rem;color:var(--muted);margin:10px 0 0;text-align:center">${esc(T("Required"))}</p>
     </form>`;
 }
 function validate(form){
@@ -473,7 +537,9 @@ function validate(form){
     fd.classList.remove("invalid"); fd.querySelector(".err-msg")?.remove();
     let bad = "";
     const grp = fd.querySelector("[data-group]");
-    if(grp){ if(grp.dataset.required && !grp.querySelector("input:checked")) bad = "Please tick this."; }
+    const up = fd.querySelector("[data-upload]");
+    if(up){ if(up.dataset.required && !(UPLOADS[up.dataset.upload] || []).length) bad = "Please add a file."; }
+    else if(grp){ if(grp.dataset.required && !grp.querySelector("input:checked")) bad = "Please tick this."; }
     else {
       const el = fd.querySelector("input,select,textarea");
       if(el && el.type === "radio"){ if(el.required && !fd.querySelector("input:checked")) bad = "Please choose one."; }
@@ -491,11 +557,12 @@ async function submitForm(form){
   const data = {};
   f.fields.forEach(x => {
     const els = [...form.querySelectorAll(`[name="${CSS.escape(x.label)}"]`)];
-    if(x.type === "checkbox") data[x.label] = els.filter(e => e.checked).map(e => e.value).join(", ");
+    if(/^(image|photo|file|upload)$/.test(x.type)) data[x.label] = (UPLOADS[x.label] || []).map(u => ({ name:u.name, type:u.type, data:u.data }));
+    else if(x.type === "checkbox") data[x.label] = els.filter(e => e.checked).map(e => e.value).join(", ");
     else if(x.type === "radio") data[x.label] = (els.find(e => e.checked) || {}).value || "";
     else data[x.label] = (els[0] || {}).value || "";
   });
-  btn.disabled = true; btn.textContent = "Submitting…";
+  btn.disabled = true; btn.textContent = Object.values(UPLOADS).some(a => a.length) ? T("Uploading") : T("Submitting");
   try{
     let j;
     if(DATA.demo){ await new Promise(r => setTimeout(r, 600)); j = { ok:true, ref:"PREVIEW", message:f.thankYou }; }
@@ -506,14 +573,53 @@ async function submitForm(form){
     if(!j.ok) throw new Error(j.error);
     form.classList.add("hidden");
     msg.innerHTML = `<div class="alert ok"><b>${esc(j.message || f.thankYou || "Submitted successfully.")}</b><br>
-      Reference number: <span class="ref">${esc(j.ref)}</span><br><small>Please note this number for any follow-up with the office.</small></div>
-      <button class="btn" onclick="route()">Submit another response</button>`;
+      ${esc(T("Reference"))}: <span class="ref">${esc(j.ref)}</span><br><small>Please note this number for any follow-up with the office.</small></div>
+      <button class="btn" onclick="UPLOADS={};route()">↺</button>`;
     msg.scrollIntoView({ behavior:"smooth", block:"start" });
   }catch(err){
     msg.innerHTML = `<div class="alert err">${esc(err.message && err.message !== "Failed to fetch" ? err.message : "Could not submit. Please check your internet connection and try again.")}</div>`;
-    btn.disabled = false; btn.textContent = "Submit";
+    btn.disabled = false; btn.textContent = T("Submit");
     msg.scrollIntoView({ behavior:"smooth", block:"center" });
   }
+}
+
+/* ---------------- photo / file uploads ---------------- */
+let UPLOADS = {};
+const MAX_FILE = 5 * 1024 * 1024;
+function readAsDataURL(file){ return new Promise((ok, bad) => { const r = new FileReader(); r.onload = () => ok(r.result); r.onerror = bad; r.readAsDataURL(file); }); }
+async function compressImage(file){ /* resize phone photos to max 1600px JPEG so uploads stay small */
+  try{
+    const url = await readAsDataURL(file);
+    const img = await new Promise((ok, bad) => { const i = new Image(); i.onload = () => ok(i); i.onerror = bad; i.src = url; });
+    const scale = Math.min(1, 1600 / Math.max(img.width, img.height));
+    const c = document.createElement("canvas"); c.width = Math.round(img.width * scale); c.height = Math.round(img.height * scale);
+    c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+    const out = c.toDataURL("image/jpeg", 0.82);
+    return { name:(file.name || "photo").replace(/\.[^.]+$/, "") + ".jpg", type:"image/jpeg", data:out.split(",")[1], preview:out };
+  }catch(e){ return null; }
+}
+async function addFiles(box, files){
+  const key = box.dataset.upload, list = UPLOADS[key] = box.dataset.multi ? (UPLOADS[key] || []) : [];
+  for(const file of files){
+    if(list.length >= 5) break;
+    let item = null;
+    if(file.type.startsWith("image/")) item = await compressImage(file);
+    if(!item){
+      if(!/^(image\/|application\/pdf)/.test(file.type)){ alert("Only photos or PDF files can be added."); continue; }
+      if(file.size > MAX_FILE){ alert(file.name + " is larger than 5 MB."); continue; }
+      const url = await readAsDataURL(file);
+      item = { name:file.name, type:file.type, data:url.split(",")[1], preview:file.type.startsWith("image/") ? url : "" };
+    }
+    list.push(item);
+  }
+  drawThumbs(box);
+}
+function drawThumbs(box){
+  const key = box.dataset.upload, list = UPLOADS[key] || [];
+  box.querySelectorAll(".thumb").forEach(t => t.remove());
+  list.forEach((u, i) => box.insertAdjacentHTML("beforeend", `<div class="thumb">${u.preview ? `<img src="${u.preview}" alt="">` : `📄<br>${esc(u.name.slice(0, 18))}`}<button type="button" data-rm="${i}" aria-label="Remove">×</button></div>`));
+  box.querySelector(".up-btn").classList.toggle("hidden", !box.dataset.multi && list.length > 0);
+  const fd = box.closest(".field"); if(list.length && fd.classList.contains("invalid")){ fd.classList.remove("invalid"); fd.querySelector(".err-msg")?.remove(); }
 }
 
 /* ---------------- contact ---------------- */
@@ -525,7 +631,7 @@ function viewContact(){
   if(s.Email) cards.push(`<div class="ccard"><small>Email</small><a href="mailto:${esc(s.Email)}">${esc(s.Email)}</a></div>`);
   if(s.OfficeHours) cards.push(`<div class="ccard"><small>Office hours</small>${esc(s.OfficeHours)}</div>`);
   if(s.Address) cards.push(`<div class="ccard"><small>Address</small>${rich(s.Address)}${s.MapURL ? `<br><a href="${esc(safeUrl(s.MapURL))}" target="_blank" rel="noopener">Open in Maps</a>` : ""}</div>`);
-  return `<div class="section-head"><h2>Contact the office</h2></div>` + (cards.length ? `<div class="contact">${cards.join("")}</div>` : `<div class="empty">Contact details not added yet.</div>`);
+  return `<div class="section-head"><h2>${H("contact")}</h2></div>` + (cards.length ? `<div class="contact">${cards.join("")}</div>` : `<div class="empty">Contact details not added yet.</div>`);
 }
 
 /* ---------------- event binding ---------------- */
@@ -546,7 +652,12 @@ function bind(cur){
   }
   if(cur === "forms"){
     const form = $("#theForm");
+    UPLOADS = {};
     form && form.addEventListener("submit", e => { e.preventDefault(); submitForm(form); });
+    form && form.querySelectorAll("[data-upload]").forEach(box => {
+      box.querySelector("input[type=file]").addEventListener("change", async e => { await addFiles(box, [...e.target.files]); e.target.value = ""; });
+      box.addEventListener("click", e => { const b = e.target.closest("[data-rm]"); if(b){ UPLOADS[box.dataset.upload].splice(+b.dataset.rm, 1); drawThumbs(box); } });
+    });
     form && form.addEventListener("input", e => { const fd = e.target.closest(".field"); if(fd?.classList.contains("invalid")){ fd.classList.remove("invalid"); fd.querySelector(".err-msg")?.remove(); } });
   }
 }
