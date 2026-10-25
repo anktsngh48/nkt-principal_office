@@ -353,16 +353,13 @@ function rich(text) {
 // Optional "Color" column in the Notices sheet: a name from PALETTE or a hex code such as #ff8a00.
 // Without one, notices with the same Tag share a colour and the rest cycle through the palette.
 const PALETTE = { blue:'#0a84ff', green:'#34c759', orange:'#ff9500', pink:'#ff2d55', purple:'#af52de', teal:'#30b0c7', indigo:'#5e5ce6', red:'#ff3b30', yellow:'#ffcc00', gray:'#8e8e93' };
-const CYCLE = ['blue', 'purple', 'pink', 'orange', 'green', 'teal', 'indigo', 'red'];
-function colorFor(raw, tag, i) {
+// Card colours follow the card's position: red, orange, purple, blue, then the same four again.
+// An explicit "Color" in the sheet still wins for that notice.
+const CYCLE = ['red', 'orange', 'purple', 'blue'];
+function colorFor(raw, i) {
   const r = String(raw || '').trim().toLowerCase();
   if (Object.prototype.hasOwnProperty.call(PALETTE, r)) return PALETTE[r];
   if (/^#([0-9a-f]{3}|[0-9a-f]{6})$/.test(r)) return r.length === 4 ? '#' + [...r.slice(1)].map(c => c + c).join('') : r;
-  if (tag) {
-    let h = 0;
-    for (const ch of tag.toLowerCase()) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
-    return PALETTE[CYCLE[h % CYCLE.length]];
-  }
   return PALETTE[CYCLE[i % CYCLE.length]];
 }
 function inkFor(hex) {   // dark text on light colours (yellow), white on the rest
@@ -691,7 +688,7 @@ function apply(d) {
   state.forms = d.forms || {};
   const items = (d.notices || []).map(toNotice).filter(Boolean);
   state.notices = [...items.filter(n => n.pinned), ...items.filter(n => !n.pinned)];
-  state.notices.forEach((n, i) => { n.color = colorFor(n.rawColor, n.tag, i); });
+  state.notices.forEach((n, i) => { n.color = colorFor(n.rawColor, i); });
   render();
 }
 function showSkeleton() {
