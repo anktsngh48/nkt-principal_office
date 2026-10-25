@@ -93,8 +93,8 @@ h1{
 .main{flex:1;min-width:0}
 .meta{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:0 0 8px;font-size:13px;color:color-mix(in srgb,var(--text) 78%,var(--card))}
 .meta .date{margin-left:auto;white-space:nowrap}
-/* Tags and "Pinned" are solid pills so they stand out from the tinted card. */
-.tag,.pin{
+/* Tags are solid pills so they stand out from the tinted card. */
+.tag{
   display:inline-flex;align-items:center;padding:4px 12px;border-radius:999px;
   font-weight:650;font-size:12.5px;line-height:1.2;letter-spacing:.005em;
 }
@@ -102,7 +102,6 @@ h1{
   background:var(--c,var(--accent));color:var(--tagink,#fff);
   box-shadow:0 3px 8px -3px color-mix(in srgb,var(--c,var(--accent)) 70%,transparent);
 }
-.pin{background:var(--text);color:var(--bg)}
 .title{margin:0;font-size:19px;line-height:1.25;font-weight:650;letter-spacing:-.018em}
 .toggle{
   all:unset;box-sizing:border-box;display:flex;align-items:flex-start;justify-content:space-between;gap:12px;width:100%;cursor:pointer;
@@ -516,7 +515,6 @@ function card(n, enter) {
   const main = el('div', { class: 'main' });
   const meta = el('div', { class: 'meta' },
     n.tag ? el('span', { class: 'tag', text: n.tag }) : null,
-    n.pinned ? el('span', { class: 'pin', text: 'Pinned' }) : null,
     n.date ? el('span', { class: 'date', text: n.date }) : null);
   if (meta.childNodes.length) main.append(meta);
 
