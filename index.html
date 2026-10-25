@@ -92,7 +92,13 @@ h1{
 .row{padding:18px 20px 20px}
 .main{flex:1;min-width:0}
 .meta{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:0 0 8px;font-size:13px;color:color-mix(in srgb,var(--text) 78%,var(--card))}
-.meta .date{margin-left:auto;white-space:nowrap}
+.date{white-space:nowrap;font-size:13px;font-weight:400;letter-spacing:0;color:color-mix(in srgb,var(--text) 78%,var(--card))}
+.meta .date{margin-left:auto}
+/* No tag: there is no meta row; the title leads and the date sits at the right end of the title line. */
+.titlerow{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+.titlerow .title{flex:1;min-width:0}
+.toggle>span:first-child{flex:1;min-width:0}
+.toggle .date{align-self:center}
 /* Tags are solid pills so they stand out from the tinted card. */
 .tag{
   display:inline-flex;align-items:center;padding:4px 12px;border-radius:999px;
@@ -513,15 +519,14 @@ function card(n, enter) {
   if (img) c.append(el('img', { class: 'cover', src: imgUrl(img), alt: '', loading: 'lazy', referrerpolicy: 'no-referrer', onerror: e => e.target.remove() }));
 
   const main = el('div', { class: 'main' });
-  const meta = el('div', { class: 'meta' },
-    n.tag ? el('span', { class: 'tag', text: n.tag }) : null,
-    n.date ? el('span', { class: 'date', text: n.date }) : null);
-  if (meta.childNodes.length) main.append(meta);
+  const dateEl = n.date ? el('span', { class: 'date', text: n.date }) : null;
+  if (n.tag) main.append(el('div', { class: 'meta' }, el('span', { class: 'tag', text: n.tag }), dateEl));
+  const titleDate = n.tag ? null : dateEl;      // no tag: the title goes first and the date joins its line
 
   if (faq) {
     const id = 'p' + Math.random().toString(36).slice(2, 8);
     const btn = el('button', { class: 'toggle', type: 'button', 'aria-expanded': 'false', 'aria-controls': id },
-      el('span', { text: n.title }), el('span', { class: 'chev' }, svg(ICON.chev)));
+      el('span', { text: n.title }), titleDate, el('span', { class: 'chev' }, svg(ICON.chev)));
     main.append(el('h2', { class: 'title' }, btn));
     if (n.summary) main.append(el('p', { class: 'summary', text: n.summary }));
     const inner = el('div', { class: 'inner' }, n.details ? rich(n.details) : null, actionsFor(n));
@@ -537,7 +542,8 @@ function card(n, enter) {
     btn.addEventListener('click', toggle);
     c.addEventListener('click', e => { if (!e.target.closest('a,button,.panel')) toggle(); });
   } else {
-    main.append(el('h2', { class: 'title', text: n.title }));
+    const h = el('h2', { class: 'title', text: n.title });
+    main.append(titleDate ? el('div', { class: 'titlerow' }, h, titleDate) : h);
     if (n.summary) main.append(el('p', { class: 'summary', text: n.summary }));
     if (n.details) main.append(rich(n.details));
     const a = actionsFor(n);
