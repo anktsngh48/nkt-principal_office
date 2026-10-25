@@ -93,13 +93,16 @@ h1{
 .main{flex:1;min-width:0}
 .meta{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:0 0 8px;font-size:13px;color:color-mix(in srgb,var(--text) 78%,var(--card))}
 .meta .date{margin-left:auto;white-space:nowrap}
-.tag,.pin{font-weight:600;font-size:12px;letter-spacing:.01em;padding:3px 10px;border-radius:999px}
-.tag{
-  color:color-mix(in srgb,var(--c,var(--accent)) 40%,var(--text));
-  background:color-mix(in srgb,var(--c,var(--accent)) 24%,var(--card));
+/* Tags and "Pinned" are solid pills so they stand out from the tinted card. */
+.tag,.pin{
+  display:inline-flex;align-items:center;padding:4px 12px;border-radius:999px;
+  font-weight:650;font-size:12.5px;line-height:1.2;letter-spacing:.005em;
 }
-.pin{color:#b25000;background:rgba(255,149,0,.16)}
-@media (prefers-color-scheme:dark){.pin{color:#ffb340}}
+.tag{
+  background:var(--c,var(--accent));color:var(--tagink,#fff);
+  box-shadow:0 3px 8px -3px color-mix(in srgb,var(--c,var(--accent)) 70%,transparent);
+}
+.pin{background:var(--text);color:var(--bg)}
 .title{margin:0;font-size:19px;line-height:1.25;font-weight:650;letter-spacing:-.018em}
 .toggle{
   all:unset;box-sizing:border-box;display:flex;align-items:flex-start;justify-content:space-between;gap:12px;width:100%;cursor:pointer;
@@ -361,9 +364,17 @@ function inkFor(hex) {   // dark text on light colours (yellow), white on the re
   const n = parseInt(hex.slice(1), 16);
   return 0.299 * (n >> 16 & 255) + 0.587 * (n >> 8 & 255) + 0.114 * (n & 255) > 170 ? '#1d1d1f' : '#ffffff';
 }
+function tagInkFor(hex) {   // whichever of white / near-black reads better on the pill (WCAG contrast)
+  const lum = h => { const n = parseInt(h.slice(1), 16);
+    return [n >> 16 & 255, n >> 8 & 255, n & 255].map(v => { v /= 255; return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4; })
+      .reduce((a, v, i) => a + v * [0.2126, 0.7152, 0.0722][i], 0); };
+  const L = lum(hex), contrast = o => (Math.max(L, o) + 0.05) / (Math.min(L, o) + 0.05);
+  return contrast(1) >= contrast(lum('#1d1d1f')) ? '#ffffff' : '#1d1d1f';
+}
 function paint(node, color) {
   node.style.setProperty('--c', color);
   node.style.setProperty('--ink', inkFor(color));
+  node.style.setProperty('--tagink', tagInkFor(color));
 }
 
 /* ---------- State & data ---------- */
