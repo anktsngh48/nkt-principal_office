@@ -3,666 +3,617 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Principal's Office</title>
-<meta name="description" content="Notices, information and forms from the Principal's Office">
-<meta name="theme-color" content="#1f3a5f">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Inter:wght@400;500;600&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231f3a5f'/%3E%3Cpath d='M14 26 32 15l18 11v3H14z M18 32h6v14h-6zM29 32h6v14h-6zM40 32h6v14h-6zM13 49h38v4H13z' fill='%23f3c969'/%3E%3C/svg%3E">
+<title>Principal's Office, Deeksha Vedantu</title>
+<meta name="description" content="Notices and updates from the Principal's Office, Deeksha Vedantu.">
+<meta name="theme-color" content="#f5f5f7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
 <style>
-/* ============================================================
-   CONFIG — paste your Apps Script Web App URL into SCRIPT_URL
-   in the script section below. Everything else comes from the Sheet.
-   ============================================================ */
 :root{
-  --ink:#1f3a5f; --ink-2:#2c5282; --gold:#c8962e; --gold-soft:#f3c969;
-  --paper:#f7f4ee; --card:#ffffff; --line:#e4ded2; --text:#1d2430; --muted:#5f6b7a;
-  --ok:#2f7d4f; --err:#b3412e; --chip:#eef2f7;
-  --c-exam:#8a4fbf; --c-meeting:#2c7a7b; --c-holiday:#c05621; --c-general:#2c5282; --c-urgent:#b3412e; --c-other:#5f6b7a;
-  --radius:14px; --shadow:0 1px 2px rgba(20,30,50,.06),0 4px 14px rgba(20,30,50,.06);
+  --bg:#f5f5f7; --card:#ffffff; --text:#1d1d1f; --muted:#6e6e73; --line:rgba(0,0,0,.08);
+  --accent:#0071e3; --accent-ink:#fff; --chip:rgba(0,0,0,.05); --bar:rgba(245,245,247,.78);
+  --field:#f5f5f7; --danger:#d70015;
+  --shadow:0 1px 2px rgba(0,0,0,.04),0 8px 28px rgba(0,0,0,.06);
+  --shadow-h:0 2px 4px rgba(0,0,0,.05),0 16px 40px rgba(0,0,0,.10);
 }
-@media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){
-    --paper:#11161e; --card:#1a212c; --line:#2a3342; --text:#e7ebf1; --muted:#9aa6b6; --chip:#232c3a;
-    --ink-2:#8fb3e6; --shadow:0 1px 2px rgba(0,0,0,.3);
+@media (prefers-color-scheme:dark){
+  :root{
+    --bg:#000; --card:#1c1c1e; --text:#f5f5f7; --muted:#98989d; --line:rgba(255,255,255,.12);
+    --accent:#0a84ff; --chip:rgba(255,255,255,.09); --bar:rgba(0,0,0,.72); --field:#2c2c2e; --danger:#ff453a;
+    --shadow:0 1px 2px rgba(0,0,0,.5); --shadow-h:0 14px 40px rgba(0,0,0,.65);
   }
-}
-:root[data-theme="dark"]{
-  --paper:#11161e; --card:#1a212c; --line:#2a3342; --text:#e7ebf1; --muted:#9aa6b6; --chip:#232c3a;
-  --ink-2:#8fb3e6; --shadow:0 1px 2px rgba(0,0,0,.3);
 }
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--paper);color:var(--text);font:16px/1.55 Inter,"Noto Sans Devanagari",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;padding-bottom:84px}
-a{color:var(--ink-2)}
-h1,h2,h3{font-family:Fraunces,"Noto Sans Devanagari",Georgia,serif;line-height:1.2;margin:0}
-button,input,select,textarea{font:inherit;color:inherit}
-.wrap{max-width:960px;margin:0 auto;padding:0 16px}
+body{
+  margin:0; background:var(--bg); color:var(--text);
+  font:17px/1.47 -apple-system,BlinkMacSystemFont,"SF Pro Text","Inter","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  -webkit-font-smoothing:antialiased; padding-bottom:env(safe-area-inset-bottom);
+}
+.wrap{max-width:720px;margin:0 auto;padding:0 20px}
 
-/* header */
-header.top{background:var(--ink);color:#fff;position:relative;overflow:hidden}
-header.top::after{content:"";position:absolute;inset:auto 0 0 0;height:4px;background:linear-gradient(90deg,var(--gold),var(--gold-soft),var(--gold))}
-.brand{display:flex;align-items:center;gap:14px;padding:22px 0 18px}
-.logo{width:54px;height:54px;border-radius:12px;background:rgba(255,255,255,.1);display:grid;place-items:center;flex:none;overflow:hidden}
-.logo img{width:100%;height:100%;object-fit:contain;background:#fff}
-.brand h1{font-size:clamp(1.3rem,4vw,1.9rem);font-weight:700;letter-spacing:.2px}
-.brand p{margin:2px 0 0;color:#cfdbeb;font-size:.92rem}
-.tabs{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;padding-bottom:10px}
-.tabs::-webkit-scrollbar{display:none}
-.tabs a{color:#dbe5f2;text-decoration:none;padding:8px 14px;border-radius:999px;font-weight:500;font-size:.94rem;white-space:nowrap}
-.tabs a[aria-current="page"]{background:#fff;color:var(--ink)}
-.tabs a:hover:not([aria-current]){background:rgba(255,255,255,.1)}
+.hero{padding:calc(56px + env(safe-area-inset-top)) 0 20px}
+.eyebrow{margin:0 0 6px;font-size:14px;font-weight:600;letter-spacing:.02em;color:var(--accent)}
+h1{margin:0;font-size:clamp(34px,7vw,52px);line-height:1.06;font-weight:700;letter-spacing:-.025em}
+.lede{margin:10px 0 0;color:var(--muted);font-size:19px;line-height:1.4}
+.eyebrow:empty,.lede:empty{display:none}
 
-/* bottom nav (mobile) */
-nav.bottom{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:1px solid var(--line);display:none;z-index:20;padding-bottom:env(safe-area-inset-bottom)}
-nav.bottom{overflow-x:auto;scrollbar-width:none}
-nav.bottom::-webkit-scrollbar{display:none}
-nav.bottom a{flex:1 0 64px;text-align:center;text-decoration:none;color:var(--muted);font-size:.72rem;padding:8px 2px 7px;display:flex;flex-direction:column;align-items:center;gap:2px}
-nav.bottom a svg{width:22px;height:22px}
-nav.bottom a[aria-current="page"]{color:var(--ink-2);font-weight:600}
-@media (max-width:700px){ nav.bottom{display:flex} .tabs{display:none} }
-@media (min-width:701px){ body{padding-bottom:0} }
+.bar{
+  position:sticky;top:0;z-index:10;padding:10px 0 12px;
+  background:var(--bar);-webkit-backdrop-filter:saturate(180%) blur(22px);backdrop-filter:saturate(180%) blur(22px);
+  border-bottom:1px solid transparent;
+}
+.search{
+  display:flex;align-items:center;gap:8px;background:var(--chip);border-radius:12px;padding:0 12px;height:40px;
+}
+.search svg{flex:none;opacity:.55}
+.search input{
+  flex:1;min-width:0;border:0;outline:0;background:transparent;color:var(--text);font:inherit;font-size:16px;height:100%;
+}
+.list{display:flex;flex-direction:column;gap:16px;padding:12px 0 56px}
+.card{
+  background:var(--card);border-radius:24px;overflow:hidden;box-shadow:var(--shadow);
+  transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s;
+  animation:rise .5s cubic-bezier(.2,.8,.2,1) both;
+}
+.card:hover{transform:translateY(-2px);box-shadow:var(--shadow-h)}
+.card.is-faq{cursor:pointer}
+.cover{display:block;width:100%;aspect-ratio:16/9;object-fit:cover;background:var(--chip)}
+.body{padding:20px 22px 22px}
+.meta{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:8px;font-size:13px;color:var(--muted)}
+.tag,.pin{
+  font-weight:600;font-size:12px;letter-spacing:.02em;padding:3px 10px;border-radius:999px;
+  color:var(--accent);background:color-mix(in srgb,var(--accent) 13%,transparent);
+}
+.pin{color:#b25000;background:rgba(255,149,0,.16)}
+@media (prefers-color-scheme:dark){.pin{color:#ffb340}}
+.title{margin:0;font-size:22px;line-height:1.2;font-weight:650;letter-spacing:-.015em}
+.toggle{
+  all:unset;box-sizing:border-box;display:flex;align-items:flex-start;justify-content:space-between;gap:14px;width:100%;cursor:pointer;
+}
+.toggle:focus-visible,.btn:focus-visible,.close:focus-visible{outline:3px solid color-mix(in srgb,var(--accent) 55%,transparent);outline-offset:2px}
+.chev{
+  flex:none;width:28px;height:28px;border-radius:50%;background:var(--chip);display:grid;place-items:center;margin-top:-1px;
+  transition:transform .35s cubic-bezier(.2,.8,.2,1);
+}
+.card.open .chev{transform:rotate(180deg)}
+.summary{margin:8px 0 0;color:var(--muted);font-size:16px}
+.rich{margin-top:12px;font-size:16px}
+.rich p{margin:0 0 10px}
+.rich p:last-child{margin-bottom:0}
+.rich a{color:var(--accent);text-decoration:none;word-break:break-word}
+.rich a:hover{text-decoration:underline}
+.panel{display:grid;grid-template-rows:0fr;transition:grid-template-rows .38s cubic-bezier(.2,.8,.2,1)}
+.panel>.inner{overflow:hidden;min-height:0}
+.card.open .panel{grid-template-rows:1fr}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;border:0;cursor:pointer;text-decoration:none;
+  font:inherit;font-size:15px;font-weight:600;padding:10px 20px;border-radius:999px;
+  background:var(--chip);color:var(--accent);transition:transform .15s,filter .2s,background .2s;
+}
+.btn:hover{filter:brightness(.96)}
+.btn:active{transform:scale(.97)}
+.btn.primary{background:var(--accent);color:var(--accent-ink)}
+.btn[disabled]{opacity:.55;cursor:default}
+.btn.wide{width:100%;padding:14px 20px;font-size:17px}
+.note{color:var(--muted);font-size:14px;margin-top:16px}
 
-main{padding:22px 0 40px}
-.status{font-size:.82rem;color:var(--muted);display:flex;align-items:center;gap:8px;margin-bottom:14px}
-.status .dot{width:8px;height:8px;border-radius:50%;background:var(--ok);flex:none}
-.status button{margin-left:auto;flex:none}
-.status .dot.demo{background:var(--gold)}
-.status button{background:none;border:1px solid var(--line);border-radius:8px;padding:3px 9px;cursor:pointer;font-size:.8rem;color:var(--muted)}
-.welcome{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:var(--radius);padding:14px 16px;margin-bottom:18px;color:var(--muted)}
-.section-head{display:flex;justify-content:space-between;align-items:end;gap:12px;margin:4px 0 14px;flex-wrap:wrap}
-.section-head h2{font-size:1.45rem}
-.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
-.search{flex:1 1 220px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--card)}
-.chip{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:6px 12px;font-size:.86rem;cursor:pointer}
-.chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:#fff}
+.empty,.error{text-align:center;color:var(--muted);padding:56px 0}
+.error button{margin-top:14px}
+.skel{height:132px;border-radius:24px;background:linear-gradient(100deg,var(--card) 30%,var(--chip) 50%,var(--card) 70%);background-size:300% 100%;animation:shimmer 1.4s linear infinite}
+.banner{margin:0 0 4px;padding:10px 14px;border-radius:14px;background:rgba(255,149,0,.14);color:var(--text);font-size:14px}
+footer{padding:8px 0 48px;text-align:center;color:var(--muted);font-size:13px}
 
-/* notices */
-.list{display:grid;gap:12px}
-.notice{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px 16px 14px 20px;position:relative;cursor:pointer;transition:transform .12s}
-.notice:hover{transform:translateY(-1px)}
-.notice::before{content:"";position:absolute;left:0;top:14px;bottom:14px;width:4px;border-radius:0 4px 4px 0;background:var(--cat,var(--c-general))}
-.notice .meta{display:flex;gap:8px;align-items:center;font-size:.8rem;color:var(--muted);flex-wrap:wrap}
-.tag{font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--cat,var(--c-general))}
-.badge{font-size:.68rem;font-weight:700;padding:2px 7px;border-radius:6px;background:var(--gold-soft);color:#4a3508}
-.badge.pin{background:var(--ink);color:#fff}
-.notice h3{font-size:1.1rem;margin:6px 0 4px}
-.notice p{margin:0;color:var(--muted);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.empty{text-align:center;color:var(--muted);padding:40px 12px;background:var(--card);border:1px dashed var(--line);border-radius:var(--radius)}
+/* Form sheet */
+dialog{
+  border:0;padding:0;background:var(--card);color:var(--text);width:min(560px,100%);max-height:92dvh;
+  border-radius:28px;box-shadow:0 30px 80px rgba(0,0,0,.35);margin:auto;overflow:hidden;
+}
+dialog[open]{display:flex;flex-direction:column;animation:pop .34s cubic-bezier(.2,.8,.2,1)}
+dialog::backdrop{background:rgba(0,0,0,.38);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.sheet{display:flex;flex-direction:column;min-height:0;max-height:92dvh}
+.sheet-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:20px 22px 12px}
+.sheet-head h3{margin:0;font-size:22px;line-height:1.2;font-weight:650;letter-spacing:-.015em}
+.close{
+  flex:none;border:0;cursor:pointer;width:32px;height:32px;border-radius:50%;background:var(--chip);color:var(--muted);
+  font-size:20px;line-height:1;display:grid;place-items:center;
+}
+.sheet-body{padding:6px 22px 8px;overflow:auto;-webkit-overflow-scrolling:touch}
+.sheet-foot{padding:14px 22px calc(20px + env(safe-area-inset-bottom));border-top:1px solid var(--line)}
+.field{margin:0 0 16px}
+.field>label,.field>.lbl{display:block;font-size:14px;font-weight:600;margin:0 0 6px}
+.req{color:var(--danger)}
+.field input:not([type=checkbox]):not([type=radio]),.field select,.field textarea{
+  width:100%;font:inherit;font-size:16px;color:var(--text);background:var(--field);
+  border:1.5px solid transparent;border-radius:12px;padding:12px 14px;outline:0;transition:border-color .2s,box-shadow .2s;
+  -webkit-appearance:none;appearance:none;
+}
+.field select{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none' stroke='%238e8e93' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M1 1.5l5 5 5-5'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 14px center;padding-right:38px;
+}
+.field textarea{resize:vertical;min-height:96px}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--accent);box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 18%,transparent)}
+.field input[type=file]{padding:10px 12px;font-size:15px}
+.hint{font-size:13px;color:var(--muted);margin-top:5px}
+.choices{display:flex;flex-direction:column;gap:6px}
+.choice{display:flex;align-items:center;gap:10px;background:var(--field);border-radius:12px;padding:11px 14px;cursor:pointer;font-size:16px}
+.choice input{width:18px;height:18px;accent-color:var(--accent);margin:0}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+.err{color:var(--danger);font-size:14px;min-height:20px;margin:0 0 10px}
+.done{text-align:center;padding:36px 22px 30px}
+.done .tick{width:64px;height:64px;border-radius:50%;margin:0 auto 14px;display:grid;place-items:center;background:color-mix(in srgb,#34c759 18%,transparent);color:#34c759}
+.done h3{margin:0 0 6px;font-size:24px;font-weight:650}
+.done p{margin:0 0 20px;color:var(--muted)}
 
-/* dialog */
-dialog{border:none;border-radius:18px;padding:0;max-width:640px;width:calc(100% - 24px);background:var(--card);color:var(--text);box-shadow:0 20px 60px rgba(0,0,0,.3)}
-dialog::backdrop{background:rgba(15,22,35,.55)}
-.dlg-body{padding:22px 20px 18px}
-.dlg-body h2{font-size:1.35rem;margin:6px 0 10px}
-.dlg-body .content{white-space:normal;word-wrap:break-word}
-.dlg-actions{display:flex;gap:8px;flex-wrap:wrap;padding:12px 20px 18px;border-top:1px solid var(--line)}
-.btn{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--card);border-radius:10px;padding:9px 14px;cursor:pointer;text-decoration:none;color:var(--text);font-weight:500;font-size:.92rem}
-.btn.primary{background:var(--ink);border-color:var(--ink);color:#fff}
-.btn.primary:disabled{opacity:.6;cursor:wait}
-.btn.wa{background:#1f9d55;border-color:#1f9d55;color:#fff}
-
-/* info accordion */
-.group{margin-bottom:18px}
-.group h3{font-size:1.05rem;color:var(--ink-2);margin:0 0 8px;font-family:Inter,sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.6px;font-size:.82rem}
-details{background:var(--card);border:1px solid var(--line);border-radius:12px;margin-bottom:8px}
-summary{cursor:pointer;padding:13px 16px;font-weight:600;list-style:none;display:flex;justify-content:space-between;gap:10px}
-summary::-webkit-details-marker{display:none}
-summary::after{content:"+";color:var(--muted);font-weight:400;font-size:1.2rem;line-height:1}
-details[open] summary::after{content:"–"}
-details .content{padding:0 16px 14px;color:var(--muted)}
-
-/* events */
-.event{display:flex;gap:14px;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:14px;box-shadow:var(--shadow)}
-.cal{flex:none;width:58px;text-align:center;border-radius:10px;overflow:hidden;border:1px solid var(--line)}
-.cal .m{background:var(--ink);color:#fff;font-size:.7rem;font-weight:600;text-transform:uppercase;padding:3px 0}
-.cal .d{font-family:Fraunces,serif;font-size:1.5rem;font-weight:700;padding:3px 0 1px}
-.cal .w{font-size:.68rem;color:var(--muted);padding-bottom:4px}
-.event h3{font-size:1.05rem;margin-bottom:2px}
-.event .sub{font-size:.88rem;color:var(--muted)}
-.past{opacity:.55}
-.subhead{font-size:.82rem;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin:22px 0 10px;font-weight:600}
-
-/* downloads */
-.dl{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;text-decoration:none;color:var(--text)}
-.dl:hover{border-color:var(--ink-2)}
-.dl .ic{width:40px;height:40px;border-radius:10px;background:var(--chip);display:grid;place-items:center;flex:none;color:var(--ink-2)}
-.dl b{display:block;font-weight:600}
-.dl span{font-size:.86rem;color:var(--muted)}
-
-/* forms */
-.formcard{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow)}
-.formcard h3{font-size:1.15rem;margin-bottom:4px}
-.formcard p{margin:0 0 12px;color:var(--muted)}
-form.f{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow)}
-.field{margin-bottom:16px}
-.field > label,.field > .lbl{display:block;font-weight:600;font-size:.92rem;margin-bottom:6px}
-.req{color:var(--err)}
-.field input[type=text],.field input[type=email],.field input[type=tel],.field input[type=number],.field input[type=date],.field select,.field textarea{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:10px;background:var(--paper)}
-.field textarea{min-height:90px;resize:vertical}
-.field input:focus,.field select:focus,.field textarea:focus{outline:2px solid var(--ink-2);outline-offset:1px;border-color:transparent}
-.opts{display:flex;flex-wrap:wrap;gap:8px}
-.opts label{display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:10px;padding:8px 12px;cursor:pointer;background:var(--paper);font-size:.94rem}
-.opts input{accent-color:var(--ink)}
-.invalid input,.invalid select,.invalid textarea,.invalid .opts label{border-color:var(--err)}
-.err-msg{color:var(--err);font-size:.82rem;margin-top:4px}
-.up-row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
-.up-btn{display:inline-flex;align-items:center;gap:8px;border:1.5px dashed var(--ink-2);color:var(--ink-2);border-radius:12px;padding:12px 16px;cursor:pointer;font-weight:600;background:var(--paper)}
-.up-btn input{display:none}
-.thumb{position:relative;width:84px;height:84px;border-radius:10px;overflow:hidden;border:1px solid var(--line);background:var(--chip);display:grid;place-items:center;font-size:.72rem;color:var(--muted);text-align:center;padding:4px}
-.thumb img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
-.thumb button{position:absolute;top:3px;right:3px;width:24px;height:24px;border-radius:50%;border:none;background:rgba(0,0,0,.65);color:#fff;cursor:pointer;font-size:14px;line-height:1;z-index:1}
-.hint{font-size:.8rem;color:var(--muted);margin-top:6px}
-.invalid .up-btn{border-color:var(--err);color:var(--err)}
-.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
-.alert{border-radius:12px;padding:14px 16px;margin-bottom:14px}
-.alert.ok{background:#e8f4ec;color:#1d5234;border:1px solid #bfe0cb}
-.alert.err{background:#fbecea;color:#7a2a1d;border:1px solid #f0c7c0}
-.alert.warn{background:#fdf5e2;color:#5e4510;border:1px solid #f0dca8}
-.ref{font-family:ui-monospace,Menlo,monospace;font-weight:700;font-size:1.1rem;letter-spacing:1px}
-
-/* contact */
-.contact{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
-.ccard{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px}
-.ccard small{display:block;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;font-size:.72rem;font-weight:600;margin-bottom:4px}
-.ccard a{word-break:break-word}
-
-.skeleton{height:84px;border-radius:var(--radius);background:linear-gradient(90deg,var(--card),var(--chip),var(--card));background-size:200% 100%;animation:sh 1.2s infinite;border:1px solid var(--line)}
-@keyframes sh{to{background-position:-200% 0}}
-footer{color:var(--muted);font-size:.8rem;text-align:center;padding:10px 16px 30px}
-.hidden{display:none!important}
-@media print{header.top,nav.bottom,.toolbar,.status,footer{display:none} body{background:#fff}}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes pop{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:none}}
+@keyframes shimmer{to{background-position:-300% 0}}
+@media (max-width:600px){
+  .wrap{padding:0 16px}
+  dialog{margin:auto 0 0;width:100%;max-width:100%;border-radius:28px 28px 0 0}
+  dialog[open]{animation:sheetUp .38s cubic-bezier(.2,.8,.2,1)}
+  @keyframes sheetUp{from{transform:translateY(100%)}to{transform:none}}
+}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
+<div class="wrap">
+  <header class="hero">
+    <p class="eyebrow" id="school"></p>
+    <h1 id="heading"></h1>
+    <p class="lede" id="subheading"></p>
+  </header>
+</div>
 
-<header class="top">
+<div class="bar">
   <div class="wrap">
-    <div class="brand">
-      <div class="logo" id="logo">
-        <svg viewBox="0 0 64 64" width="34" height="34" aria-hidden="true"><path d="M14 26 32 15l18 11v3H14z M18 32h6v14h-6zM29 32h6v14h-6zM40 32h6v14h-6zM13 49h38v4H13z" fill="#f3c969"/></svg>
-      </div>
-      <div>
-        <h1 id="schoolName">Principal's Office</h1>
-        <p id="tagline">Notices, information and forms</p>
-      </div>
-    </div>
-    <nav class="tabs" id="tabs" aria-label="Sections"></nav>
+    <label class="search">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="q" type="search" placeholder="Search notices" autocomplete="off" aria-label="Search notices">
+    </label>
   </div>
-</header>
+</div>
 
-<main class="wrap" id="main" tabindex="-1">
-  <div class="status" id="status"></div>
-  <div id="view"><div class="list"><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div></div></div>
+<main class="wrap">
+  <div id="banner"></div>
+  <div class="list" id="list" aria-live="polite"></div>
 </main>
 
-<footer id="footer"></footer>
-<nav class="bottom" id="bottomNav" aria-label="Sections"></nav>
+<footer class="wrap" id="foot"></footer>
 
-<dialog id="dlg" aria-labelledby="dlgTitle"><div id="dlgInner"></div></dialog>
+<dialog id="dlg" aria-label="Form"></dialog>
 
 <script>
-/* ============================================================
-   PASTE YOUR APPS SCRIPT WEB APP URL HERE (ends with /exec).
-   Leave empty to preview the page with sample data.
-   ============================================================ */
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwDYqnBTRKp0_RVE6D5_AIaKHyckL6fc7kHWkgowPopZcTRY2yaK7dxFrWgdgNIG9A/exec";
+(() => {
+'use strict';
 
-/* ------------------------------------------------------------ */
-const CACHE_KEY = "po_cache_v1";
-const ICONS = {
-  notices:'<path d="M4 5h16v11H8l-4 4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>',
-  info:'<circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 11v6M12 7.5v.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>',
-  events:'<rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3.5 10h17M8 3v4M16 3v4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>',
-  downloads:'<path d="M12 4v11m0 0-4-4m4 4 4-4M5 19h14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>',
-  forms:'<rect x="5" y="3.5" width="14" height="17" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M9 9h6M9 13h6M9 17h3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>',
-  contact:'<path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>',
-  form:'<rect x="4" y="5" width="16" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="9" cy="10" r="1.8" fill="currentColor"/><path d="m5 17 5-4 3 2.5 2.5-2 3.5 3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>'
+/* ---------- Config ---------- */
+const CONFIG = {
+  // Paste your deployed Google Apps Script web app URL here (see README.md; the backend code is in Code.gs).
+  // While empty, the page shows demo notices so you can preview the design.
+  SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbyAnu1rSvbNmp1UKxqcttwR5fSOwM7BkRRo_FAnKamzBOYizCo5-3rr5xzaqyZy-Z0s/exec',
+  MAX_FILE_MB: 5,
+  CACHE_KEY: 'po-notices-v1'
 };
-/* default section names — the Sections tab in the Sheet overrides these */
-const DEFAULT_SECTIONS = [
-  { id:"notices",   label:"Notices",   heading:"Notices",            show:true, order:1 },
-  { id:"info",      label:"Info",      heading:"Information",        show:true, order:2 },
-  { id:"events",    label:"Calendar",  heading:"Calendar",           show:true, order:3 },
-  { id:"downloads", label:"Downloads", heading:"Downloads",          show:true, order:4 },
-  { id:"forms",     label:"Forms",     heading:"Forms",              show:true, order:5 },
-  { id:"contact",   label:"Contact",   heading:"Contact the office", show:true, order:6 }
-];
-/* default button/label texts — override with Text_… keys in the Settings tab */
-const DEFAULT_TEXT = { Search:"Search…", Submit:"Submit", Required:"Fields marked * are required.", FillForm:"Fill form",
-  AddPhoto:"Add photo", AddFile:"Choose file", Upcoming:"Upcoming", Recent:"Recent", Submitting:"Submitting…", Uploading:"Uploading photos…",
-  Reference:"Reference number", AllForms:"All forms", Share:"Share on WhatsApp", CopyLink:"Copy link", Close:"Close", Attachment:"Open attachment" };
-const CAT_COLORS = { exam:"--c-exam", exams:"--c-exam", meeting:"--c-meeting", ptm:"--c-meeting", holiday:"--c-holiday", holidays:"--c-holiday", general:"--c-general", urgent:"--c-urgent", important:"--c-urgent" };
 
-/* sample data used only when SCRIPT_URL is empty */
-function demoData(){
-  const t = new Date(), d = n => { const x = new Date(t.getFullYear(), t.getMonth(), t.getDate()+n); return iso(x); };
-  return { ok:true, demo:true,
-    settings:{ SchoolName:"Your School Name", Tagline:"Office of the Principal", Phone:"+91 90000 00000", WhatsApp:"919000000000",
-      Email:"principal@yourschool.edu.in", Address:"School Road, City, State – 000000", OfficeHours:"Mon–Sat, 9:00 AM – 4:00 PM",
-      Welcome:"All notices, information and forms from the Principal's Office are published here. Please check this page regularly." },
-    sections: DEFAULT_SECTIONS,
-    notices:[
-      { id:2, date:d(0), title:"Parent–Teacher Meeting", details:"PTM for all classes will be held on Saturday from 9 AM to 1 PM. Parents are requested to collect report cards from the class teacher.", category:"Meeting", pinned:true },
-      { id:3, date:d(-2), title:"Winter uniform from 1 November", details:"Students must wear the full winter uniform (navy blazer and grey trousers/skirt) from 1 November.", category:"General" },
-      { id:4, date:d(-5), title:"Half-yearly exam timetable", details:"The half-yearly examination timetable is attached. Exams begin on the 10th.", category:"Exam" }
-    ],
-    info:[
-      { section:"School Timings", title:"Regular days", content:"Classes 1–5: 8:00 AM – 1:30 PM\nClasses 6–12: 8:00 AM – 2:30 PM", order:1 },
-      { section:"School Timings", title:"Saturdays", content:"Activity day: 8:00 AM – 12:00 PM", order:2 },
-      { section:"Fees", title:"Fee payment", content:"Fees are payable quarterly by the 10th of the first month of each quarter at the accounts office or online.", order:1 },
-      { section:"Rules", title:"Attendance", content:"A minimum of 75% attendance is required. Leave applications must be submitted by the parent in writing.", order:1 }
-    ],
-    events:[
-      { date:d(4), title:"Parent–Teacher Meeting", details:"All classes", location:"School auditorium" },
-      { date:d(12), end:d(20), title:"Half-yearly examinations", details:"Timetable in Notices" },
-      { date:d(25), title:"Annual Sports Day", details:"Parents welcome", location:"Main ground" }
-    ],
-    downloads:[
-      { title:"Academic calendar", url:"https://example.com/calendar.pdf", category:"Academic", description:"Full-year calendar of the current session" },
-      { title:"Leave application format", url:"https://example.com/leave.pdf", category:"Forms", description:"Print, fill and submit to the class teacher" }
-    ],
-    forms:[{ id:"student_info", title:"Student Information Form", description:"Please fill in or update your child's details. One form per student.",
-      thankYou:"Thank you! The school office has received the details.",
-      fields:[
-        { label:"Student Name", type:"text", required:true, placeholder:"Full name as per records", options:[] },
-        { label:"Class", type:"select", required:true, options:"Nursery,LKG,UKG,1,2,3,4,5,6,7,8,9,10,11,12".split(",") },
-        { label:"Section", type:"select", required:true, options:["A","B","C","D"] },
-        { label:"Roll / Admission No.", type:"text", options:[] },
-        { label:"Date of Birth", type:"date", required:true, options:[] },
-        { label:"Gender", type:"radio", required:true, options:["Male","Female","Other"] },
-        { label:"Father / Guardian Name", type:"text", required:true, options:[] },
-        { label:"Mother Name", type:"text", options:[] },
-        { label:"Parent Mobile", type:"tel", required:true, placeholder:"10-digit mobile number", options:[] },
-        { label:"Parent Email", type:"email", options:[] },
-        { label:"Address", type:"textarea", required:true, options:[] },
-        { label:"Transport", type:"radio", required:true, options:["School bus","Own transport"] },
-        { label:"Any medical notes for the school", type:"textarea", placeholder:"Optional", options:[] },
-        { label:"I confirm the details above are correct", type:"checkbox", required:true, options:["Yes, I confirm"] }
-      ]},
-      { id:"id_photo", title:"ID Card Photo", description:"Upload a recent passport-size photo of the student (plain background).", thankYou:"Photo received. Thank you!",
-        menu:true, menuLabel:"ID Photo",
-        fields:[
-          { label:"Student Name", type:"text", required:true, options:[] },
-          { label:"Class", type:"select", required:true, options:"Nursery,LKG,UKG,1,2,3,4,5,6,7,8,9,10,11,12".split(",") },
-          { label:"Section", type:"select", required:true, options:["A","B","C","D"] },
-          { label:"Student Photo", type:"image", required:true, placeholder:"Passport-size, plain background", options:[] },
-          { label:"Supporting document (optional)", type:"file", placeholder:"PDF or photo, up to 5 MB", options:[] }
-        ]}]
+/* ---------- Demo data (used only when SCRIPT_URL is empty) ---------- */
+const DEMO = {
+  settings: {
+    'School Name': 'NKT',
+    'Heading': "Principal's Office",
+    'Subheading': 'Notices, updates and forms for students.'
+  },
+  notices: [
+    {Title:'Leave application', Summary:'Planning to be absent? Let us know in advance.', Type:'Form', Form:'Leave Request', Tag:'Forms', Date:'25 Oct 2026', Pinned:'Yes'},
+    {Title:'Will classes run on Diwali week?', Summary:'Timings and holiday schedule.', Type:'Dropdown', Details:'Classes are off from 30 Oct to 2 Nov.\nRegular timings resume on Monday, 3 Nov.\nSee the full calendar: https://example.com/calendar', Tag:'Holidays', Date:'24 Oct 2026', PDF:'https://example.com/calendar.pdf'},
+    {Title:'Parent-teacher meeting', Summary:'Book your slot on the school portal.', Type:'Link', URL:'https://example.com/ptm', 'Button Text':'Book a slot', Tag:'Events', Date:'22 Oct 2026'},
+    {Title:'Library timings updated', Summary:'The library now stays open until 7 pm on weekdays.', Type:'Info', Tag:'General', Date:'20 Oct 2026'}
+  ],
+  forms: {
+    'Leave Request - Active': [
+      ['Name*','Class*','Reason','Supporting document','Photo'],
+      ['Text','Dropdown','Long text','PDF','Picture'],
+      ['','Class 8','','',''],
+      ['','Class 9','','',''],
+      ['','Class 10','','','']
+    ]
+  }
+};
+
+/* ---------- Helpers ---------- */
+const $ = (s, r = document) => r.querySelector(s);
+const norm = k => String(k).toLowerCase().replace(/[^a-z0-9]/g, '');
+
+function el(tag, props = {}, ...kids) {
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(props)) {
+    if (v == null || v === false) continue;
+    if (k === 'class') e.className = v;
+    else if (k === 'text') e.textContent = v;
+    else if (k.startsWith('on')) e.addEventListener(k.slice(2), v);
+    else e.setAttribute(k, v === true ? '' : v);
+  }
+  kids.flat().forEach(c => { if (c != null && c !== false) e.append(c.nodeType ? c : document.createTextNode(c)); });
+  return e;
+}
+const svg = html => { const s = el('span'); s.innerHTML = html; return s.firstChild; };
+const ICON = {
+  chev: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>',
+  tick: '<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>'
+};
+
+function safeUrl(u) {
+  if (!u) return '';
+  try { const x = new URL(u, location.href); return /^https?:$/.test(x.protocol) ? x.href : ''; } catch { return ''; }
+}
+function driveId(u) {
+  if (!/(drive|docs)\.google\.com/.test(u)) return null;
+  const m = u.match(/\/d\/([\w-]{20,})/) || u.match(/[?&]id=([\w-]{20,})/);
+  return m ? m[1] : null;
+}
+const imgUrl = u => { const id = driveId(u); return id ? `https://drive.google.com/thumbnail?id=${id}&sz=w1600` : u; };
+const pdfUrl = u => { const id = driveId(u); return id ? `https://drive.google.com/file/d/${id}/view` : u; };
+
+// Render plain text safely: paragraphs from line breaks, URLs become links.
+function rich(text) {
+  const box = el('div', { class: 'rich' });
+  String(text).split(/\n+/).filter(Boolean).forEach(line => {
+    const p = el('p');
+    let last = 0;
+    for (const m of line.matchAll(/https?:\/\/[^\s<]+/g)) {
+      const url = m[0].replace(/[.,;:!?)]+$/, '');
+      p.append(line.slice(last, m.index));
+      const href = safeUrl(url);
+      p.append(href ? el('a', { href, target: '_blank', rel: 'noopener noreferrer', text: url }) : url);
+      last = m.index + url.length;
+    }
+    p.append(line.slice(last));
+    box.append(p);
+  });
+  return box;
+}
+
+/* ---------- State & data ---------- */
+const state = { notices: [], forms: {}, q: '' };
+
+// Page header text comes from the "Settings" sheet (School Name, Heading, Subheading).
+const DEFAULTS = { school: 'Deeksha Vedantu', heading: "Principal's Office" };
+function applySettings(raw) {
+  const s = {};
+  for (const k in (raw || {})) s[norm(k)] = String(raw[k] == null ? '' : raw[k]).trim();
+  const get = (names, fallback) => { for (const n of names) if (n in s) return s[n]; return fallback; };
+  const school = get(['schoolname', 'school', 'institute'], '') || DEFAULTS.school;
+  const heading = get(['heading', 'title', 'pagetitle', 'principalsoffice'], '') || DEFAULTS.heading;
+  const sub = get(['subheading', 'subtitle', 'tagline'], '');   // blank in the sheet hides the line
+  $('#school').textContent = school;
+  $('#heading').textContent = heading;
+  $('#subheading').textContent = sub;
+  $('#foot').textContent = heading + ' · ' + school;
+  document.title = heading + ', ' + school;
+}
+
+const NO = /^(no|false|0|hide|hidden|inactive|draft|off)$/i;
+const YES = /^(yes|true|1|pinned|pin|y)$/i;
+
+function toNotice(raw) {
+  const o = {};
+  for (const k in raw) o[norm(k)] = raw[k];
+  const pick = names => { for (const n of names) if (o[n] != null && String(o[n]).trim() !== '') return String(o[n]).trim(); return ''; };
+  const show = pick(['show', 'visible', 'status']);
+  if (show && NO.test(show)) return null;
+  const n = {
+    title: pick(['title', 'heading', 'notice', 'name']),
+    summary: pick(['summary', 'subtitle', 'description', 'shortdescription']),
+    details: pick(['details', 'answer', 'body', 'content', 'text']),
+    type: pick(['type', 'kind', 'style']).toLowerCase(),
+    url: pick(['url', 'link', 'redirecturl', 'redirect']),
+    button: pick(['buttontext', 'button', 'cta', 'linktext']),
+    form: pick(['form', 'formname', 'formsheet']),
+    image: pick(['image', 'picture', 'photo', 'imageurl']),
+    pdf: pick(['pdf', 'pdfurl', 'attachment']),
+    date: pick(['date', 'posted', 'publishedon']),
+    tag: pick(['tag', 'category', 'label']),
+    pinned: YES.test(pick(['pinned', 'pin']))
   };
+  if (!n.title) return null;
+  if (/faq|drop|accordion|expand/.test(n.type)) n.type = 'dropdown';
+  else if (/form/.test(n.type)) n.type = 'form';
+  else if (/link|redirect|url/.test(n.type)) n.type = 'link';
+  else if (/info|plain|text/.test(n.type)) n.type = 'info';
+  else n.type = n.form ? 'form' : n.url ? 'link' : n.details ? 'dropdown' : 'info';
+  return n;
 }
 
-/* ---------------- state + utils ---------------- */
-let DATA = null, state = { q:"", cat:"All" };
-const $ = s => document.querySelector(s);
-const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
-function iso(dt){ return dt.getFullYear()+"-"+String(dt.getMonth()+1).padStart(2,"0")+"-"+String(dt.getDate()).padStart(2,"0"); }
-function parseDate(s){ if(!s) return null; const m = String(s).match(/^(\d{4})-(\d{2})-(\d{2})/); if(m) return new Date(+m[1], m[2]-1, +m[3]); const d = new Date(s); return isNaN(d) ? null : d; }
-function fmtDate(s, opts){ const d = parseDate(s); return d ? d.toLocaleDateString("en-IN", opts || { day:"numeric", month:"short", year:"numeric" }) : esc(s); }
-function rich(s){ /* escape, then linkify and keep line breaks */
-  return esc(s).replace(/(https?:\/\/[^\s<]+)/g, u => `<a href="${u}" target="_blank" rel="noopener">${u}</a>`).replace(/\n/g, "<br>");
-}
-function safeUrl(u){ u = String(u||"").trim(); return /^https?:\/\//i.test(u) ? u : (u ? "https://" + u : ""); }
-function catVar(c){ return `var(${CAT_COLORS[String(c||"").toLowerCase()] || "--c-other"})`; }
-function daysAgo(s){ const d = parseDate(s); if(!d) return 999; const t = new Date(); t.setHours(0,0,0,0); return Math.round((t - d)/864e5); }
-function T(k){ const v = (DATA && DATA.settings || {})["Text_" + k]; return v ? String(v) : DEFAULT_TEXT[k]; }
-function sectionList(){
-  const fromSheet = (DATA && DATA.sections || []).filter(s => s.id);
-  return DEFAULT_SECTIONS.map(d => { const s = fromSheet.find(x => x.id === d.id) || {};
-    return { id:d.id, label:s.label || d.label, heading:s.heading || s.label || d.heading, show: s.show === undefined ? d.show : s.show, order: s.order || d.order }; });
-}
-function H(id){ return esc((sectionList().find(s => s.id === id) || {}).heading || id); }
-/* menu items: visible sections + forms marked ShowInMenu, in order */
-function navItems(){
-  const items = sectionList().filter(s => s.show).map(s => ({ key:s.id, href:"#" + s.id, label:s.label, icon:ICONS[s.id], order:s.order }));
-  const fOrder = (sectionList().find(s => s.id === "forms") || {}).order || 5;
-  (DATA.forms || []).filter(f => f.menu).forEach((f, i) => items.push({ key:"form:" + f.id, href:"#forms/" + encodeURIComponent(f.id),
-    label:f.menuLabel || f.title, icon:ICONS.form, order: fOrder + 0.1 + i / 100 }));
-  return items.sort((a, b) => a.order - b.order);
-}
-function cacheGet(){ try { return JSON.parse(localStorage.getItem(CACHE_KEY)); } catch(e){ return null; } }
-function cacheSet(v){ try { localStorage.setItem(CACHE_KEY, JSON.stringify(v)); } catch(e){} }
-
-/* ---------------- data loading ---------------- */
-async function load(force){
-  if(!SCRIPT_URL){ DATA = demoData(); applySettings(); route(); return; }
-  const cached = cacheGet();
-  if(cached && !force){ DATA = cached; applySettings(); route(); }
-  try{
-    const res = await fetch(SCRIPT_URL + "?t=" + Date.now());
-    const j = await res.json();
-    if(!j.ok) throw new Error(j.error || "Bad response");
-    DATA = j; cacheSet(j); applySettings(); route();
-  }catch(err){
-    if(!DATA){ $("#view").innerHTML = `<div class="alert err">Could not load the latest information. Please check your internet connection and try again.<br><button class="btn" style="margin-top:10px" onclick="load(true)">Retry</button></div>`; }
-    else { DATA._offline = true; renderStatus(); }
-  }
+function resolveForm(name) {
+  const keys = Object.keys(state.forms);
+  if (!keys.length) return null;
+  const q = (name || '').trim().toLowerCase();
+  let k = q ? (keys.find(x => x.toLowerCase() === q) || keys.find(x => x.toLowerCase().includes(q))) : (keys.length === 1 ? keys[0] : null);
+  return k ? { name: k, grid: state.forms[k] } : null;
 }
 
-function applySettings(){
-  const s = DATA.settings || {};
-  const name = s.SchoolName || "Principal's Office";
-  $("#schoolName").textContent = name;
-  $("#tagline").textContent = s.Tagline || "Notices, information and forms";
-  document.title = name + " – Principal's Office";
-  if(s.LogoURL){ $("#logo").innerHTML = `<img src="${esc(safeUrl(s.LogoURL))}" alt="">`; }
-  $("#footer").innerHTML = `${esc(name)} · Principal's Office${s.Phone ? " · " + esc(s.Phone) : ""}`;
-}
+const KINDS = {
+  text:'text', short:'text', string:'text', name:'text',
+  long:'textarea', longtext:'textarea', paragraph:'textarea', textarea:'textarea',
+  number:'number', numeric:'number', email:'email', phone:'tel', mobile:'tel', tel:'tel',
+  date:'date', time:'time', url:'url', link:'url',
+  dropdown:'select', select:'select', radio:'radio', choice:'radio',
+  checkbox:'checkbox', checkboxes:'checkbox', multiselect:'checkbox',
+  picture:'image', image:'image', photo:'image', pdf:'pdf', file:'file', document:'file'
+};
 
-function renderStatus(){
-  const el = $("#status");
-  if(DATA?.demo){ el.innerHTML = `<span class="dot demo"></span> Preview with sample data — connect the Google Sheet to go live.`; return; }
-  const when = DATA?.updated ? new Date(DATA.updated).toLocaleString("en-IN",{ day:"numeric", month:"short", hour:"numeric", minute:"2-digit" }) : "";
-  el.innerHTML = `<span class="dot"${DATA?._offline ? ' style="background:var(--gold)"' : ""}></span> ${DATA?._offline ? "Offline — showing saved copy from" : "Updated"} ${esc(when)} <button onclick="load(true)">Refresh</button>`;
-}
-
-/* ---------------- routing ---------------- */
-function navHtml(items, curKey, withIcons){
-  return items.map(s => `<a href="${s.href}"${s.key === curKey ? ' aria-current="page"' : ""}>${withIcons ? `<svg viewBox="0 0 24 24" aria-hidden="true">${s.icon}</svg>` : ""}${esc(s.label)}</a>`).join("");
-}
-function route(){
-  if(!DATA) return;
-  const items = navItems();
-  const visible = new Set(sectionList().filter(s => s.show).map(s => s.id));
-  const h = decodeURIComponent(location.hash.slice(1));
-  let [sec, arg] = h.split("/");
-  const menuForm = sec === "forms" && arg && (DATA.forms || []).some(f => f.id === arg && f.menu);
-  if(!visible.has(sec) && !menuForm){ sec = items[0] ? (items[0].key.startsWith("form:") ? "forms" : items[0].key) : "notices"; arg = items[0] && items[0].key.startsWith("form:") ? items[0].key.slice(5) : undefined; }
-  const cur = sec;
-  const curKey = cur === "forms" && arg && (DATA.forms || []).some(f => f.id === arg && f.menu) ? "form:" + arg : cur;
-  if($("#dlg").open && !(cur === "notices" && arg)) $("#dlg").close();
-  $("#tabs").innerHTML = navHtml(items, curKey, false);
-  $("#bottomNav").innerHTML = navHtml(items, curKey, true);
-  $("#bottomNav").classList.toggle("hidden", items.length < 2);
-  $("#tabs").classList.toggle("hidden", items.length < 2);
-  renderStatus();
-  const v = $("#view");
-  if(cur === "notices") v.innerHTML = viewNotices();
-  if(cur === "info") v.innerHTML = viewInfo();
-  if(cur === "events") v.innerHTML = viewEvents();
-  if(cur === "downloads") v.innerHTML = viewDownloads();
-  if(cur === "forms") v.innerHTML = arg ? viewForm(arg) : viewForms();
-  if(cur === "contact") v.innerHTML = viewContact();
-  bind(cur);
-  if(cur === "notices" && arg) openNotice(arg);
-}
-window.addEventListener("hashchange", () => { route(); window.scrollTo({ top:0 }); });
-
-/* ---------------- notices ---------------- */
-function sortedNotices(){
-  return (DATA.notices || []).slice().sort((a,b) => (b.pinned - a.pinned) || String(b.date).localeCompare(String(a.date)));
-}
-function viewNotices(){
-  const s = DATA.settings || {};
-  const cats = ["All", ...new Set((DATA.notices||[]).map(n => n.category).filter(Boolean))];
-  return `${s.Welcome ? `<div class="welcome">${rich(s.Welcome)}</div>` : ""}
-    <div class="section-head"><h2>${H("notices")}</h2></div>
-    <div class="toolbar">
-      <input class="search" id="q" type="search" placeholder="${esc(T("Search"))}" value="${esc(state.q)}" aria-label="Search notices">
-    </div>
-    ${cats.length > 2 ? `<div class="toolbar" role="group" aria-label="Filter by category">${cats.map(c => `<button class="chip" data-cat="${esc(c)}" aria-pressed="${c === state.cat}">${esc(c)}</button>`).join("")}</div>` : ""}
-    <div class="list" id="noticeList">${noticeList()}</div>`;
-}
-function noticeList(){
-  const q = state.q.toLowerCase();
-  const rows = sortedNotices().filter(n =>
-    (state.cat === "All" || n.category === state.cat) &&
-    (!q || (n.title + " " + n.details + " " + n.category).toLowerCase().includes(q)));
-  if(!rows.length) return `<div class="empty">No notices${q || state.cat !== "All" ? " match your search" : " right now"}.</div>`;
-  return rows.map(n => `
-    <article class="notice" style="--cat:${catVar(n.category)}" data-id="${esc(n.id)}" tabindex="0" role="button" aria-label="${esc(n.title)}">
-      <div class="meta">
-        ${n.category ? `<span class="tag">${esc(n.category)}</span>` : ""}
-        <span>${fmtDate(n.date)}</span>
-        ${n.pinned ? `<span class="badge pin">Pinned</span>` : ""}
-        ${daysAgo(n.date) <= 3 && daysAgo(n.date) >= 0 ? `<span class="badge">New</span>` : ""}
-        ${n.attachment ? `<span>📎 Attachment</span>` : ""}
-      </div>
-      <h3>${esc(n.title)}</h3>
-      <p>${esc(n.details)}</p>
-    </article>`).join("");
-}
-function openNotice(id){
-  const n = (DATA.notices||[]).find(x => String(x.id) === String(id));
-  if(!n) return;
-  const link = location.href.split("#")[0] + "#notices/" + n.id;
-  const shareText = `${n.title}\n${link}`;
-  $("#dlgInner").innerHTML = `
-    <div class="dlg-body" style="--cat:${catVar(n.category)}">
-      <div class="meta" style="display:flex;gap:8px;font-size:.82rem;color:var(--muted)">${n.category ? `<span class="tag">${esc(n.category)}</span>` : ""}<span>${fmtDate(n.date, { weekday:"short", day:"numeric", month:"long", year:"numeric" })}</span></div>
-      <h2 id="dlgTitle">${esc(n.title)}</h2>
-      <div class="content">${rich(n.details)}</div>
-    </div>
-    <div class="dlg-actions">
-      ${n.attachment ? `<a class="btn primary" href="${esc(safeUrl(n.attachment))}" target="_blank" rel="noopener">${esc(T("Attachment"))}</a>` : ""}
-      <a class="btn wa" href="https://wa.me/?text=${encodeURIComponent(shareText)}" target="_blank" rel="noopener">${esc(T("Share"))}</a>
-      <button class="btn" id="copyLink">${esc(T("CopyLink"))}</button>
-      <button class="btn" style="margin-left:auto" onclick="closeDlg()">${esc(T("Close"))}</button>
-    </div>`;
-  $("#copyLink").onclick = async e => { try { await navigator.clipboard.writeText(link); e.target.textContent = "Copied ✓"; } catch(x){ prompt("Copy this link:", link); } };
-  const dlg = $("#dlg"); if(!dlg.open) dlg.showModal();
-}
-function closeDlg(){ $("#dlg").close(); }
-$("#dlg").addEventListener("close", () => { if(location.hash.startsWith("#notices/")) history.replaceState(null, "", "#notices"); });
-$("#dlg").addEventListener("click", e => { if(e.target.id === "dlg") closeDlg(); });
-
-/* ---------------- info ---------------- */
-function viewInfo(){
-  const groups = {};
-  (DATA.info||[]).forEach(r => { const k = r.section || "General"; (groups[k] = groups[k] || []).push(r); });
-  const keys = Object.keys(groups);
-  if(!keys.length) return `<div class="section-head"><h2>${H("info")}</h2></div><div class="empty">No information added yet.</div>`;
-  return `<div class="section-head"><h2>${H("info")}</h2></div>
-    <div class="toolbar"><input class="search" id="iq" type="search" placeholder="${esc(T("Search"))}" aria-label="Search information"></div>
-    <div id="infoGroups">${keys.map(k => `<div class="group"><h3>${esc(k)}</h3>${groups[k].sort((a,b) => a.order - b.order).map((r,i) =>
-      `<details${keys.length === 1 && i === 0 ? " open" : ""}><summary>${esc(r.title || k)}</summary><div class="content">${rich(r.content)}</div></details>`).join("")}</div>`).join("")}</div>`;
-}
-
-/* ---------------- events ---------------- */
-function viewEvents(){
-  const t = new Date(); t.setHours(0,0,0,0);
-  const ev = (DATA.events||[]).filter(e => parseDate(e.date)).sort((a,b) => String(a.date).localeCompare(String(b.date)));
-  const upcoming = ev.filter(e => (parseDate(e.end) || parseDate(e.date)) >= t);
-  const past = ev.filter(e => (parseDate(e.end) || parseDate(e.date)) < t).reverse().slice(0, 10);
-  const card = (e, cls) => { const d = parseDate(e.date);
-    return `<div class="event ${cls||""}">
-      <div class="cal"><div class="m">${d.toLocaleDateString("en-IN",{ month:"short" })}</div><div class="d">${d.getDate()}</div><div class="w">${d.toLocaleDateString("en-IN",{ weekday:"short" })}</div></div>
-      <div><h3>${esc(e.title)}</h3>
-        <div class="sub">${e.end ? `${fmtDate(e.date,{ day:"numeric", month:"short" })} – ${fmtDate(e.end)}` : fmtDate(e.date,{ weekday:"long", day:"numeric", month:"long" })}${e.location ? " · " + esc(e.location) : ""}</div>
-        ${e.details ? `<div class="sub" style="margin-top:4px">${rich(e.details)}</div>` : ""}</div></div>`; };
-  return `<div class="section-head"><h2>${H("events")}</h2></div>${upcoming.length && past.length ? `<div class="subhead" style="margin-top:0">${esc(T("Upcoming"))}</div>` : ""}
-    <div class="list">${upcoming.length ? upcoming.map(e => card(e)).join("") : `<div class="empty">No upcoming events.</div>`}</div>
-    ${past.length ? `<div class="subhead">${esc(T("Recent"))}</div><div class="list">${past.map(e => card(e, "past")).join("")}</div>` : ""}`;
-}
-
-/* ---------------- downloads ---------------- */
-function viewDownloads(){
-  const groups = {};
-  (DATA.downloads||[]).filter(d => d.url).forEach(d => { const k = d.category || "Files"; (groups[k] = groups[k] || []).push(d); });
-  const keys = Object.keys(groups);
-  return `<div class="section-head"><h2>${H("downloads")}</h2></div>` + (keys.length ? keys.map(k => `<div class="group"><h3>${esc(k)}</h3><div class="list">${groups[k].map(d =>
-    `<a class="dl" href="${esc(safeUrl(d.url))}" target="_blank" rel="noopener"><div class="ic"><svg viewBox="0 0 24 24" width="20" height="20"><path d="M12 4v11m0 0-4-4m4 4 4-4M5 19h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-     <div><b>${esc(d.title)}</b>${d.description ? `<span>${esc(d.description)}</span>` : ""}</div></a>`).join("")}</div></div>`).join("") : `<div class="empty">No downloads yet.</div>`);
-}
-
-/* ---------------- forms ---------------- */
-function viewForms(){
-  const f = DATA.forms || [];
-  if(f.length === 1) { location.replace("#forms/" + encodeURIComponent(f[0].id)); return ""; }
-  return `<div class="section-head"><h2>${H("forms")}</h2></div>` + (f.length ? `<div class="list">${f.map(x =>
-    `<div class="formcard"><h3>${esc(x.title)}</h3>${x.description ? `<p>${rich(x.description)}</p>` : ""}<a class="btn primary" href="#forms/${encodeURIComponent(x.id)}">${esc(T("FillForm"))}</a></div>`).join("")}</div>`
-    : `<div class="empty">There are no open forms right now.</div>`);
-}
-function fieldHtml(f, i){
-  const id = "f" + i, name = esc(f.label), req = f.required ? " required" : "", star = f.required ? ' <span class="req">*</span>' : "";
-  const ph = f.placeholder ? ` placeholder="${esc(f.placeholder)}"` : "";
-  const opts = f.options || [];
-  switch(f.type){
-    case "textarea": return `<label for="${id}">${name}${star}</label><textarea id="${id}" name="${name}"${req}${ph} maxlength="2000"></textarea>`;
-    case "select": case "dropdown": return `<label for="${id}">${name}${star}</label><select id="${id}" name="${name}"${req}><option value="">Select…</option>${opts.map(o => `<option>${esc(o)}</option>`).join("")}</select>`;
-    case "radio": return `<div class="lbl" id="${id}">${name}${star}</div><div class="opts" role="radiogroup" aria-labelledby="${id}">${opts.map(o => `<label><input type="radio" name="${name}" value="${esc(o)}"${req}> ${esc(o)}</label>`).join("")}</div>`;
-    case "checkbox": return `<div class="lbl" id="${id}">${name}${star}</div><div class="opts" data-group="${name}" data-required="${f.required ? 1 : ""}">${opts.length ? opts.map(o => `<label><input type="checkbox" name="${name}" value="${esc(o)}"> ${esc(o)}</label>`).join("") : `<label><input type="checkbox" name="${name}" value="Yes"> Yes</label>`}</div>`;
-    case "image": case "photo": case "file": case "upload": {
-      const isImg = f.type === "image" || f.type === "photo";
-      const multi = opts.some(o => /^multiple$/i.test(o));
-      return `<div class="lbl" id="${id}">${name}${star}</div>
-        <div class="up-row" data-upload="${name}" data-kind="${isImg ? "image" : "file"}" data-required="${f.required ? 1 : ""}" data-multi="${multi ? 1 : ""}">
-          <label class="up-btn"><input type="file" accept="${isImg ? "image/*" : "image/*,application/pdf"}"${multi ? " multiple" : ""}>
-            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">${isImg ? ICONS.form : ICONS.downloads}</svg>${esc(isImg ? T("AddPhoto") : T("AddFile"))}</label>
-        </div>${f.placeholder ? `<div class="hint">${esc(f.placeholder)}</div>` : ""}`;
-    }
-    case "tel": case "phone": return `<label for="${id}">${name}${star}</label><input id="${id}" type="tel" name="${name}" inputmode="tel" pattern="[+0-9 \\-]{10,15}" title="Enter a valid phone number"${req}${ph}>`;
-    case "email": case "number": case "date": return `<label for="${id}">${name}${star}</label><input id="${id}" type="${f.type}" name="${name}"${req}${ph}>`;
-    default: return `<label for="${id}">${name}${star}</label><input id="${id}" type="text" name="${name}"${req}${ph} maxlength="300">`;
-  }
-}
-function viewForm(fid){
-  const f = (DATA.forms||[]).find(x => String(x.id) === fid);
-  if(!f) return `<div class="empty">This form is not available. <a href="#forms">See all forms</a></div>`;
-  return `<div class="section-head"><h2>${esc(f.title)}</h2>${(DATA.forms||[]).length > 1 && sectionList().find(s => s.id === "forms").show ? `<a href="#forms">← ${esc(T("AllForms"))}</a>` : ""}</div>
-    ${f.description ? `<p style="color:var(--muted);margin-top:-6px">${rich(f.description)}</p>` : ""}
-    ${DATA.demo ? `<div class="alert warn">Preview mode: submissions are not saved until the Google Sheet is connected.</div>` : ""}
-    <div id="formMsg"></div>
-    <form class="f" id="theForm" data-id="${esc(f.id)}" novalidate>
-      ${f.fields.map((x,i) => `<div class="field">${fieldHtml(x,i)}</div>`).join("")}
-      <div class="hp" aria-hidden="true"><label>Website <input name="website" tabindex="-1" autocomplete="off"></label></div>
-      <button class="btn primary" type="submit" id="submitBtn" style="width:100%;justify-content:center;padding:13px">${esc(T("Submit"))}</button>
-      <p style="font-size:.8rem;color:var(--muted);margin:10px 0 0;text-align:center">${esc(T("Required"))}</p>
-    </form>`;
-}
-function validate(form){
-  let firstBad = null;
-  form.querySelectorAll(".field").forEach(fd => {
-    fd.classList.remove("invalid"); fd.querySelector(".err-msg")?.remove();
-    let bad = "";
-    const grp = fd.querySelector("[data-group]");
-    const up = fd.querySelector("[data-upload]");
-    if(up){ if(up.dataset.required && !(UPLOADS[up.dataset.upload] || []).length) bad = "Please add a file."; }
-    else if(grp){ if(grp.dataset.required && !grp.querySelector("input:checked")) bad = "Please tick this."; }
-    else {
-      const el = fd.querySelector("input,select,textarea");
-      if(el && el.type === "radio"){ if(el.required && !fd.querySelector("input:checked")) bad = "Please choose one."; }
-      else if(el){ el.value = el.value.trim(); if(!el.checkValidity()) bad = el.validity.valueMissing ? "This field is required." : (el.title || "Please check this value."); }
-    }
-    if(bad){ fd.classList.add("invalid"); fd.insertAdjacentHTML("beforeend", `<div class="err-msg">${bad}</div>`); firstBad = firstBad || fd; }
+// Row 1 = field labels, Row 2 = field types, Rows 3+ = options for dropdown / radio / checkbox columns.
+function parseForm(grid) {
+  const labels = grid[0] || [], types = grid[1] || [], fields = [];
+  labels.forEach((lab, i) => {
+    let label = String(lab || '').trim();
+    if (!label) return;
+    let required = /\*\s*$/.test(label);
+    label = label.replace(/\s*\*\s*$/, '').trim();
+    let t = String(types[i] || 'text').trim();
+    if (/\*|required/i.test(t)) { required = true; t = t.replace(/\*|\(?required\)?/ig, '').trim(); }
+    const parts = t.split(':');
+    const kindRaw = (parts.shift() || 'text').trim().toLowerCase().replace(/\s+/g, '') || 'text';
+    let options = parts.join(':').split(/[|,;]/).map(s => s.trim()).filter(Boolean);
+    if (!options.length) options = grid.slice(2).map(r => String((r || [])[i] || '').trim()).filter(Boolean);
+    let kind = KINDS[kindRaw] || 'text';
+    if (['select', 'radio', 'checkbox'].includes(kind) && !options.length) kind = 'text';
+    fields.push({ label, required, kind, options });
   });
-  if(firstBad){ firstBad.scrollIntoView({ behavior:"smooth", block:"center" }); firstBad.querySelector("input,select,textarea")?.focus({ preventScroll:true }); }
-  return !firstBad;
+  return fields;
 }
-async function submitForm(form){
-  if(!validate(form)) return;
-  const btn = $("#submitBtn"), msg = $("#formMsg");
-  const f = DATA.forms.find(x => String(x.id) === form.dataset.id);
-  const data = {};
-  f.fields.forEach(x => {
-    const els = [...form.querySelectorAll(`[name="${CSS.escape(x.label)}"]`)];
-    if(/^(image|photo|file|upload)$/.test(x.type)) data[x.label] = (UPLOADS[x.label] || []).map(u => ({ name:u.name, type:u.type, data:u.data }));
-    else if(x.type === "checkbox") data[x.label] = els.filter(e => e.checked).map(e => e.value).join(", ");
-    else if(x.type === "radio") data[x.label] = (els.find(e => e.checked) || {}).value || "";
-    else data[x.label] = (els[0] || {}).value || "";
+
+/* ---------- Rendering ---------- */
+function render() {
+  const list = $('#list');
+  list.replaceChildren();
+  const q = state.q.trim().toLowerCase();
+  const items = state.notices.filter(n =>
+    !q || [n.title, n.summary, n.details, n.tag].join(' ').toLowerCase().includes(q));
+  if (!items.length) {
+    list.append(el('div', { class: 'empty', text: state.notices.length ? 'No notices match your search.' : 'No notices right now. Please check back soon.' }));
+    return;
+  }
+  items.forEach((n, i) => {
+    const c = card(n);
+    c.style.animationDelay = Math.min(i, 8) * 45 + 'ms';
+    list.append(c);
   });
-  btn.disabled = true; btn.textContent = Object.values(UPLOADS).some(a => a.length) ? T("Uploading") : T("Submitting");
-  try{
-    let j;
-    if(DATA.demo){ await new Promise(r => setTimeout(r, 600)); j = { ok:true, ref:"PREVIEW", message:f.thankYou }; }
-    else {
-      const res = await fetch(SCRIPT_URL, { method:"POST", body: JSON.stringify({ formId:f.id, data, website: form.website.value }) });
-      j = await res.json();
+}
+
+function actionsFor(n) {
+  const acts = [];
+  if (n.type === 'link') {
+    const href = safeUrl(n.url);
+    if (href) acts.push(el('a', { class: 'btn primary', href, target: '_blank', rel: 'noopener noreferrer', text: (n.button || 'Open') + ' \u2197' }));
+  }
+  if (n.type === 'form') {
+    const f = resolveForm(n.form);
+    acts.push(f
+      ? el('button', { class: 'btn primary', type: 'button', text: n.button || 'Fill the form', onclick: () => openForm(n, f) })
+      : el('button', { class: 'btn', type: 'button', disabled: true, text: 'Form unavailable' }));
+  }
+  const pdf = safeUrl(n.pdf);
+  if (pdf) acts.push(el('a', { class: 'btn', href: pdfUrl(pdf), target: '_blank', rel: 'noopener noreferrer', text: 'View PDF' }));
+  return acts.length ? el('div', { class: 'actions' }, acts) : null;
+}
+
+function card(n) {
+  const faq = n.type === 'dropdown';
+  const c = el('article', { class: 'card' + (faq ? ' is-faq' : '') });
+  const img = safeUrl(n.image);
+  if (img) c.append(el('img', { class: 'cover', src: imgUrl(img), alt: '', loading: 'lazy', referrerpolicy: 'no-referrer', onerror: e => e.target.remove() }));
+
+  const body = el('div', { class: 'body' });
+  const meta = el('div', { class: 'meta' },
+    n.tag ? el('span', { class: 'tag', text: n.tag }) : null,
+    n.pinned ? el('span', { class: 'pin', text: 'Pinned' }) : null,
+    n.date ? el('span', { text: n.date }) : null);
+  if (meta.childNodes.length) body.append(meta);
+
+  if (faq) {
+    const id = 'p' + Math.random().toString(36).slice(2, 8);
+    const btn = el('button', { class: 'toggle', type: 'button', 'aria-expanded': 'false', 'aria-controls': id },
+      el('span', { text: n.title }), el('span', { class: 'chev' }, svg(ICON.chev)));
+    body.append(el('h2', { class: 'title' }, btn));
+    if (n.summary) body.append(el('p', { class: 'summary', text: n.summary }));
+    const inner = el('div', { class: 'inner' }, n.details ? rich(n.details) : null, actionsFor(n));
+    const panel = el('div', { class: 'panel', id }, inner);
+    panel.inert = true;
+    body.append(panel);
+    const toggle = () => {
+      const open = !c.classList.contains('open');
+      c.classList.toggle('open', open);
+      btn.setAttribute('aria-expanded', String(open));
+      panel.inert = !open;
+    };
+    btn.addEventListener('click', toggle);
+    c.addEventListener('click', e => { if (!e.target.closest('a,button,.panel')) toggle(); });
+  } else {
+    body.append(el('h2', { class: 'title', text: n.title }));
+    if (n.summary) body.append(el('p', { class: 'summary', text: n.summary }));
+    if (n.details) body.append(rich(n.details));
+    const a = actionsFor(n);
+    if (a) body.append(a);
+  }
+  c.append(body);
+  return c;
+}
+
+/* ---------- Form sheet ---------- */
+const dlg = $('#dlg');
+dlg.addEventListener('click', e => { if (e.target === dlg) dlg.close(); });
+dlg.addEventListener('close', () => dlg.replaceChildren());
+
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+function readBase64(blob) {
+  return new Promise((res, rej) => {
+    const r = new FileReader();
+    r.onload = () => res(String(r.result).split(',')[1] || '');
+    r.onerror = () => rej(new Error('Could not read the file.'));
+    r.readAsDataURL(blob);
+  });
+}
+async function shrinkImage(file) {
+  if (!/^image\/(jpeg|png|webp)$/.test(file.type)) return file;
+  try {
+    const bmp = await createImageBitmap(file);
+    const scale = Math.min(1, 1600 / Math.max(bmp.width, bmp.height));
+    const cv = document.createElement('canvas');
+    cv.width = Math.round(bmp.width * scale); cv.height = Math.round(bmp.height * scale);
+    const ctx = cv.getContext('2d');
+    ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, cv.width, cv.height);
+    ctx.drawImage(bmp, 0, 0, cv.width, cv.height);
+    const blob = await new Promise(r => cv.toBlob(r, 'image/jpeg', 0.82));
+    return blob && blob.size < file.size ? new File([blob], file.name.replace(/\.\w+$/, '') + '.jpg', { type: 'image/jpeg' }) : file;
+  } catch { return file; }
+}
+async function filePayload(input, kind) {
+  let f = input.files[0];
+  if (!f) return null;
+  if (kind === 'pdf' && f.type !== 'application/pdf') throw new Error('Please choose a PDF file.');
+  if (kind === 'image' && !f.type.startsWith('image/')) throw new Error('Please choose an image.');
+  if (kind === 'file' && f.type !== 'application/pdf' && !f.type.startsWith('image/')) throw new Error('Please choose a PDF or an image.');
+  if (f.type.startsWith('image/')) f = await shrinkImage(f);
+  if (f.size > CONFIG.MAX_FILE_MB * 1024 * 1024) throw new Error(`"${f.name}" is larger than ${CONFIG.MAX_FILE_MB} MB.`);
+  return { name: f.name, type: f.type, data: await readBase64(f) };
+}
+
+function openForm(n, f) {
+  const fields = parseForm(f.grid);
+  const getters = [];
+  const sheetBody = el('div', { class: 'sheet-body' });
+
+  fields.forEach((fd, i) => {
+    const id = 'f' + i;
+    const reqMark = fd.required ? el('span', { class: 'req', text: ' *' }) : null;
+    const wrap = el('div', { class: 'field' });
+    const grouped = fd.kind === 'radio' || fd.kind === 'checkbox';
+    wrap.append(grouped ? el('div', { class: 'lbl' }, fd.label, reqMark) : el('label', { for: id }, fd.label, reqMark));
+    let input;
+    switch (fd.kind) {
+      case 'textarea':
+        input = el('textarea', { id, rows: 4, maxlength: 5000, required: fd.required });
+        getters.push(() => input.value.trim()); wrap.append(input); break;
+      case 'select':
+        input = el('select', { id, required: fd.required }, el('option', { value: '', text: 'Select\u2026' }), fd.options.map(o => el('option', { value: o, text: o })));
+        getters.push(() => input.value); wrap.append(input); break;
+      case 'radio': {
+        const box = el('div', { class: 'choices', role: 'radiogroup' });
+        fd.options.forEach(o => box.append(el('label', { class: 'choice' }, el('input', { type: 'radio', name: id, value: o, required: fd.required }), o)));
+        getters.push(() => { const r = box.querySelector('input:checked'); return r ? r.value : ''; });
+        wrap.append(box); break;
+      }
+      case 'checkbox': {
+        const box = el('div', { class: 'choices' });
+        fd.options.forEach(o => box.append(el('label', { class: 'choice' }, el('input', { type: 'checkbox', value: o }), o)));
+        getters.push(() => [...box.querySelectorAll('input:checked')].map(x => x.value));
+        wrap.append(box); break;
+      }
+      case 'image': case 'pdf': case 'file': {
+        const accept = fd.kind === 'image' ? 'image/*' : fd.kind === 'pdf' ? 'application/pdf' : 'application/pdf,image/*';
+        input = el('input', { id, type: 'file', accept, required: fd.required });
+        getters.push(() => filePayload(input, fd.kind));
+        wrap.append(input, el('div', { class: 'hint', text: `Up to ${CONFIG.MAX_FILE_MB} MB` })); break;
+      }
+      default:
+        input = el('input', { id, type: fd.kind, required: fd.required, maxlength: fd.kind === 'text' ? 500 : null, inputmode: fd.kind === 'number' ? 'decimal' : null, step: fd.kind === 'number' ? 'any' : null, autocomplete: 'off' });
+        getters.push(() => input.value.trim()); wrap.append(input);
     }
-    if(!j.ok) throw new Error(j.error);
-    form.classList.add("hidden");
-    msg.innerHTML = `<div class="alert ok"><b>${esc(j.message || f.thankYou || "Submitted successfully.")}</b><br>
-      ${esc(T("Reference"))}: <span class="ref">${esc(j.ref)}</span><br><small>Please note this number for any follow-up with the office.</small></div>
-      <button class="btn" onclick="UPLOADS={};route()">↺</button>`;
-    msg.scrollIntoView({ behavior:"smooth", block:"start" });
-  }catch(err){
-    msg.innerHTML = `<div class="alert err">${esc(err.message && err.message !== "Failed to fetch" ? err.message : "Could not submit. Please check your internet connection and try again.")}</div>`;
-    btn.disabled = false; btn.textContent = T("Submit");
-    msg.scrollIntoView({ behavior:"smooth", block:"center" });
-  }
-}
+    sheetBody.append(wrap);
+  });
 
-/* ---------------- photo / file uploads ---------------- */
-let UPLOADS = {};
-const MAX_FILE = 5 * 1024 * 1024;
-function readAsDataURL(file){ return new Promise((ok, bad) => { const r = new FileReader(); r.onload = () => ok(r.result); r.onerror = bad; r.readAsDataURL(file); }); }
-async function compressImage(file){ /* resize phone photos to max 1600px JPEG so uploads stay small */
-  try{
-    const url = await readAsDataURL(file);
-    const img = await new Promise((ok, bad) => { const i = new Image(); i.onload = () => ok(i); i.onerror = bad; i.src = url; });
-    const scale = Math.min(1, 1600 / Math.max(img.width, img.height));
-    const c = document.createElement("canvas"); c.width = Math.round(img.width * scale); c.height = Math.round(img.height * scale);
-    c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
-    const out = c.toDataURL("image/jpeg", 0.82);
-    return { name:(file.name || "photo").replace(/\.[^.]+$/, "") + ".jpg", type:"image/jpeg", data:out.split(",")[1], preview:out };
-  }catch(e){ return null; }
-}
-async function addFiles(box, files){
-  const key = box.dataset.upload, list = UPLOADS[key] = box.dataset.multi ? (UPLOADS[key] || []) : [];
-  for(const file of files){
-    if(list.length >= 5) break;
-    let item = null;
-    if(file.type.startsWith("image/")) item = await compressImage(file);
-    if(!item){
-      if(!/^(image\/|application\/pdf)/.test(file.type)){ alert("Only photos or PDF files can be added."); continue; }
-      if(file.size > MAX_FILE){ alert(file.name + " is larger than 5 MB."); continue; }
-      const url = await readAsDataURL(file);
-      item = { name:file.name, type:file.type, data:url.split(",")[1], preview:file.type.startsWith("image/") ? url : "" };
+  const hp = el('input', { class: 'hp', name: 'website', tabindex: '-1', autocomplete: 'off', 'aria-hidden': 'true' });
+  const err = el('p', { class: 'err', role: 'alert' });
+  const submit = el('button', { class: 'btn primary wide', type: 'submit', text: 'Submit' });
+  sheetBody.append(hp, err);
+
+  const form = el('form', { class: 'sheet' },
+    el('div', { class: 'sheet-head' },
+      el('h3', { text: n.title }),
+      el('button', { class: 'close', type: 'button', 'aria-label': 'Close', text: '\u00d7', onclick: () => dlg.close() })),
+    sheetBody,
+    el('div', { class: 'sheet-foot' }, submit));
+
+  form.addEventListener('submit', async ev => {
+    ev.preventDefault();
+    err.textContent = '';
+    submit.disabled = true; submit.textContent = 'Submitting\u2026';
+    try {
+      const values = {};
+      for (let i = 0; i < fields.length; i++) {
+        const v = await getters[i]();
+        if (fields[i].required && fields[i].kind === 'checkbox' && !v.length) throw new Error(`Please choose at least one option for "${fields[i].label}".`);
+        values[fields[i].label] = v;
+      }
+      if (CONFIG.SCRIPT_URL) {
+        const res = await fetch(CONFIG.SCRIPT_URL, {
+          method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({ form: f.name, notice: n.title, website: hp.value, values })
+        });
+        const j = await res.json();
+        if (!j.ok) throw new Error(j.error || 'Could not submit. Please try again.');
+      } else { await sleep(700); }
+      form.replaceChildren(el('div', { class: 'done' },
+        el('div', { class: 'tick' }, svg(ICON.tick)),
+        el('h3', { text: 'Thank you' }),
+        el('p', { text: 'Your response has been submitted.' }),
+        el('button', { class: 'btn primary', type: 'button', text: 'Done', onclick: () => dlg.close() })));
+    } catch (e) {
+      err.textContent = e && e.message ? e.message : 'Could not submit. Please try again.';
+      submit.disabled = false; submit.textContent = 'Submit';
     }
-    list.push(item);
-  }
-  drawThumbs(box);
-}
-function drawThumbs(box){
-  const key = box.dataset.upload, list = UPLOADS[key] || [];
-  box.querySelectorAll(".thumb").forEach(t => t.remove());
-  list.forEach((u, i) => box.insertAdjacentHTML("beforeend", `<div class="thumb">${u.preview ? `<img src="${u.preview}" alt="">` : `📄<br>${esc(u.name.slice(0, 18))}`}<button type="button" data-rm="${i}" aria-label="Remove">×</button></div>`));
-  box.querySelector(".up-btn").classList.toggle("hidden", !box.dataset.multi && list.length > 0);
-  const fd = box.closest(".field"); if(list.length && fd.classList.contains("invalid")){ fd.classList.remove("invalid"); fd.querySelector(".err-msg")?.remove(); }
+  });
+
+  dlg.replaceChildren(form);
+  dlg.showModal();
 }
 
-/* ---------------- contact ---------------- */
-function viewContact(){
-  const s = DATA.settings || {};
-  const cards = [];
-  if(s.Phone) cards.push(`<div class="ccard"><small>Phone</small><a href="tel:${esc(String(s.Phone).replace(/[^+\d]/g,""))}">${esc(s.Phone)}</a></div>`);
-  if(s.WhatsApp) cards.push(`<div class="ccard"><small>WhatsApp</small><a href="https://wa.me/${esc(String(s.WhatsApp).replace(/\D/g,""))}" target="_blank" rel="noopener">Message the office</a></div>`);
-  if(s.Email) cards.push(`<div class="ccard"><small>Email</small><a href="mailto:${esc(s.Email)}">${esc(s.Email)}</a></div>`);
-  if(s.OfficeHours) cards.push(`<div class="ccard"><small>Office hours</small>${esc(s.OfficeHours)}</div>`);
-  if(s.Address) cards.push(`<div class="ccard"><small>Address</small>${rich(s.Address)}${s.MapURL ? `<br><a href="${esc(safeUrl(s.MapURL))}" target="_blank" rel="noopener">Open in Maps</a>` : ""}</div>`);
-  return `<div class="section-head"><h2>${H("contact")}</h2></div>` + (cards.length ? `<div class="contact">${cards.join("")}</div>` : `<div class="empty">Contact details not added yet.</div>`);
+/* ---------- Loading ---------- */
+function apply(d) {
+  applySettings(d.settings);
+  state.forms = d.forms || {};
+  const items = (d.notices || []).map(toNotice).filter(Boolean);
+  state.notices = [...items.filter(n => n.pinned), ...items.filter(n => !n.pinned)];
+  render();
+}
+function showSkeleton() {
+  const l = $('#list'); l.replaceChildren();
+  for (let i = 0; i < 3; i++) l.append(el('div', { class: 'skel' }));
+}
+function showError() {
+  const l = $('#list'); l.replaceChildren(el('div', { class: 'error' },
+    el('div', { text: 'Could not load notices. Check your connection and try again.' }),
+    el('button', { class: 'btn', type: 'button', text: 'Retry', onclick: load })));
 }
 
-/* ---------------- event binding ---------------- */
-function bind(cur){
-  if(cur === "notices"){
-    const q = $("#q");
-    q && q.addEventListener("input", () => { state.q = q.value; $("#noticeList").innerHTML = noticeList(); });
-    document.querySelectorAll(".chip").forEach(b => b.onclick = () => {
-      state.cat = b.dataset.cat; document.querySelectorAll(".chip").forEach(x => x.setAttribute("aria-pressed", x === b)); $("#noticeList").innerHTML = noticeList(); });
-    $("#noticeList").addEventListener("click", e => { const a = e.target.closest(".notice"); if(a) location.hash = "notices/" + a.dataset.id; });
-    $("#noticeList").addEventListener("keydown", e => { const a = e.target.closest(".notice"); if(a && (e.key === "Enter" || e.key === " ")){ e.preventDefault(); location.hash = "notices/" + a.dataset.id; } });
+async function load() {
+  if (!CONFIG.SCRIPT_URL) {
+    $('#banner').replaceChildren(el('p', { class: 'banner', text: 'Preview mode: showing sample notices. Set SCRIPT_URL in index.html to connect your Google Sheet.' }));
+    apply(DEMO);
+    return;
   }
-  if(cur === "info"){
-    const iq = $("#iq");
-    iq && iq.addEventListener("input", () => { const q = iq.value.toLowerCase();
-      document.querySelectorAll("#infoGroups details").forEach(d => { const hit = !q || d.textContent.toLowerCase().includes(q); d.classList.toggle("hidden", !hit); if(q && hit) d.open = true; });
-      document.querySelectorAll("#infoGroups .group").forEach(g => g.classList.toggle("hidden", !g.querySelector("details:not(.hidden)"))); });
-  }
-  if(cur === "forms"){
-    const form = $("#theForm");
-    UPLOADS = {};
-    form && form.addEventListener("submit", e => { e.preventDefault(); submitForm(form); });
-    form && form.querySelectorAll("[data-upload]").forEach(box => {
-      box.querySelector("input[type=file]").addEventListener("change", async e => { await addFiles(box, [...e.target.files]); e.target.value = ""; });
-      box.addEventListener("click", e => { const b = e.target.closest("[data-rm]"); if(b){ UPLOADS[box.dataset.upload].splice(+b.dataset.rm, 1); drawThumbs(box); } });
-    });
-    form && form.addEventListener("input", e => { const fd = e.target.closest(".field"); if(fd?.classList.contains("invalid")){ fd.classList.remove("invalid"); fd.querySelector(".err-msg")?.remove(); } });
-  }
+  let cached = null;
+  try { cached = JSON.parse(localStorage.getItem(CONFIG.CACHE_KEY)); } catch {}
+  if (cached && cached.notices) apply(cached); else showSkeleton();
+  try {
+    const sep = CONFIG.SCRIPT_URL.includes('?') ? '&' : '?';
+    const r = await fetch(CONFIG.SCRIPT_URL + sep + 't=' + Date.now());
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const d = await r.json();
+    apply(d);
+    try { localStorage.setItem(CONFIG.CACHE_KEY, JSON.stringify(d)); } catch {}
+  } catch { if (!cached) { applySettings({}); showError(); } }
 }
 
+$('#q').addEventListener('input', e => { state.q = e.target.value; render(); });
 load();
+})();
 </script>
 </body>
 </html>
+
+<!-- Backend code: Code.gs. Sheet layout and setup steps: README.md. -->
